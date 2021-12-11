@@ -6,7 +6,7 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import MyApp from './components/app'
-
+import { observer } from 'mobx-react-lite';
 import AuthStore from './shared/authStore/AuthStore'
 function App() {
   const [component, setComponent] = useState<any>();
@@ -29,4 +29,4 @@ function App() {
     </ThemeProvider>
   );
 }
-export default App;
+export default observer(App);

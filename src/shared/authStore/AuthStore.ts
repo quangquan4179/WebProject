@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx'
 class AuthStore {
     isAuth =null
-    user = true
+    user = null
     constructor(){
         makeObservable(this,{
         isAuth: observable,
