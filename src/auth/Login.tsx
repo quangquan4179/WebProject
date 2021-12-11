@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Box,
     Button,
@@ -7,7 +7,7 @@ import {
     Typography,
 } from '@material-ui/core';
 import { Link} from 'react-router-dom'
-
+import AuthStore from './../shared/authStore/AuthStore';
 const Login :React.FC<{}> =()=>{
     const [loading, setLoading ]=useState(false);
     const[formData,setFormData]=useState<object>({
@@ -19,6 +19,7 @@ const Login :React.FC<{}> =()=>{
     const handleSubmit =async (e:any) =>{
       e.preventDefault();
       console.log(formData)
+      await AuthStore.login(formData);
   };
     return(
       <React.Fragment>

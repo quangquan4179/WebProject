@@ -1,7 +1,7 @@
 import axios from './custom_axios'
 class AuthService {
   async login(email:string, password: string) {
-    const res = await axios.post('auth/login', { email, password })
+    const res = await axios.post('/login', { email, password })
     return res.data
   }
 
