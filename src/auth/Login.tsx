@@ -8,18 +8,24 @@ import {
 } from '@material-ui/core';
 import { Link} from 'react-router-dom'
 import AuthStore from './../shared/authStore/AuthStore';
+interface IData {
+  email: string,
+  password: string
+}
 const Login :React.FC<{}> =()=>{
-    const [loading, setLoading ]=useState(false);
-    const[formData,setFormData]=useState<object>({
+    // const [loading, setLoading ]=useState(false);
+  
+  
+    const[formData,setFormData]=useState<IData>({
       email:'',
       password:'',
     });
+    const {email , password}:{ email :string, password:string} =formData ;
     const handleChange =(e :any)=>setFormData({...formData, [e.target.name]:e.target.value});
 
     const handleSubmit =async (e:any) =>{
       e.preventDefault();
-      console.log(formData)
-      await AuthStore.login(formData);
+      await AuthStore.login(email,password);
   };
     return(
       <React.Fragment>
