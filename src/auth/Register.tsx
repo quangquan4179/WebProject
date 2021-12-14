@@ -9,22 +9,22 @@ import {
 import { Link} from 'react-router-dom'
 import AuthStore from '../shared/authStore/AuthStore'
 interface IData{
-  email: string,
+  username: string,
   password: string,
   passwordConfirm:string
 }
 
 const Register :React.FC<{}> =()=>{
     const[formData,setFormData]=useState<IData>({
-        email:'',
+        username:'',
         password:'',
         passwordConfirm:''
     });
-    const {email,password,passwordConfirm}:{email: string, password:string,passwordConfirm:string}=formData;
+    const {username,password,passwordConfirm}:{ username: string, password:string,passwordConfirm:string}=formData;
     const handleChange =( e:any)=>setFormData({...formData,[e.target.name]:e.target.value});
     const handleSubmit =async (e:any) =>{
         e.preventDefault();
-        await AuthStore.register(email,password,passwordConfirm);
+        await AuthStore.register(username,password);
     };
     return(
       <React.Fragment>
@@ -55,8 +55,8 @@ const Register :React.FC<{}> =()=>{
               </Box>
             </Box>
             <TextField
-              name='email'
-              type='email'
+              name='username'
+              type='text'
               id='email_login'
               autoFocus
               placeholder='Nhập vào email'
