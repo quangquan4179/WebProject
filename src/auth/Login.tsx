@@ -9,7 +9,7 @@ import {
 import { Link} from 'react-router-dom'
 import AuthStore from './../shared/authStore/AuthStore';
 interface IData {
-  email: string,
+  username: string,
   password: string
 }
 const Login :React.FC<{}> =()=>{
@@ -17,15 +17,16 @@ const Login :React.FC<{}> =()=>{
   
   
     const[formData,setFormData]=useState<IData>({
-      email:'',
+      username:'',
       password:'',
     });
-    const {email , password}:{ email :string, password:string} =formData ;
+    const {username , password}:{username :string, password:string} =formData ;
     const handleChange =(e :any)=>setFormData({...formData, [e.target.name]:e.target.value});
 
     const handleSubmit =async (e:any) =>{
       e.preventDefault();
-      await AuthStore.login(email,password);
+      console.log(username);
+      await AuthStore.login(username,password);
   };
     return(
       <React.Fragment>
@@ -58,20 +59,20 @@ const Login :React.FC<{}> =()=>{
               </Box>
             </Box>
             <TextField
-              name='email'
-              type='email'
+              name='username'
+              type='text'
               id='email_login'
               autoFocus
               placeholder='Nhập vào email'
               fullWidth
-              label='Email'
+              label='username'
               margin='normal'
               variant='outlined'
               onChange={handleChange}
             />
             <TextField
               name='password'
-              type='password'
+              type='text'
               id='password_login'
               placeholder='Nhập vào mật khẩu'
               fullWidth

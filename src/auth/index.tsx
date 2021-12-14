@@ -11,9 +11,10 @@ const Auth :React.FC=()=>{
             <Routes>
                 {AuthStore.isAuth===null?(
                     <>
+                    <Route element={<RedirectLogin/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
-                    <Route element={<RedirectLogin/>}/>
+                   
                     </>
                 ):('')}
 

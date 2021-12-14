@@ -11,7 +11,7 @@ import AuthStore from './shared/authStore/AuthStore'
 function App() {
   const [component, setComponent] = useState<any>();
   const getCurrentView =()=>{
-    if(AuthStore.user!==null){
+    if(AuthStore.user){
       return <MyApp/>
     }
     return <Auth/>
