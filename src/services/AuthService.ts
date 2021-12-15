@@ -10,13 +10,9 @@ class AuthService {
   }
 
   async checkToken(userId:number) {
-    const res = await axios.get('auth/verifyToken',{
-      params : {
-        userId
-      }
-    })
+    const res = await axios.get(`/users/${userId}`)
     if (res.data.success) {
-      return res.data.user
+      return res.data
     }
     return null
   }

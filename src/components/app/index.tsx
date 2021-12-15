@@ -1,7 +1,9 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { styled } from '@material-ui/styles'
 import NavBar from "../../shared/layout/Navbar";
-import {Route, Routes} from "react-router-dom"
+// import {Route, Routes} from "react-router-dom"
+import AuthStore from "../../shared/authStore/AuthStore";
+import { observer } from "mobx-react-lite";
 import Home from "./Home";
 const DashboardLayoutRoot = styled('div')(({theme}) => ({
     height: '100%',
@@ -13,23 +15,22 @@ const DashboardLayoutContent = styled('div')({
     height: '100%',
     overflow: 'auto',
   })
-const MyApp :React.FC =()=>{
+function MyApp (){
+    useEffect(()=>{
+        const userId = localStorage.getItem('userId');
+        Promise.all([AuthStore.getUser(Number(userId))])
+        
+    },[])
     return(
         <DashboardLayoutRoot >
-            <NavBar/>
+            {AuthStore.user?(
+                <NavBar data={AuthStore.user}/>
+            ):('')}
             <DashboardLayoutContent>
-                <Home/>
+               <Home/>
             </DashboardLayoutContent>
-            
-            {/* <>
-                <Routes>
-                    <Route path ='/' element={<Home/>}/>
-                </Routes>
-            </> */}
-            
-
         </DashboardLayoutRoot>
     )
 
 }
-export default MyApp
+export default observer(MyApp)

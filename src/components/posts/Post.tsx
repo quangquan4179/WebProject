@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     media: {
       height: 0,
-      paddingTop: '56.25%', // 16:9
+      paddingTop: '56.25%', 
     },
     expand: {
       transform: 'rotate(0deg)',
@@ -50,8 +50,8 @@ export default function Post() {
   };
 
   return (
-    <Box sx={{ width: '75%' }} m={1} >
-        <Card className={classes.root}>
+    <Box sx={{ width: '70%' }} m={1} >
+        <Card >
             <CardHeader
                 avatar={
                 <Avatar aria-label="recipe" className={classes.avatar}>
