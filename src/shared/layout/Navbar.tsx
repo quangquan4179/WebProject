@@ -18,6 +18,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AuthStore from '../authStore/AuthStore';
 import Avatar from '@material-ui/core/Avatar';
 import { Box } from '@material-ui/core'
+import {firstChar} from '../functions/sliceName'
+import { Data, Nullable} from '../interfaces'
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grow: {
@@ -84,11 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-type Nullable<T> = T | null;
-interface Data {
-  photoURL?:string;
-  username?:string;
-}
+
 interface NavBarProps{
   data?: Nullable<Data>
 }
@@ -180,7 +179,7 @@ export default function NavBar(props:NavBarProps) {
           aria-haspopup="true"
           color="inherit"
         >
-          <Avatar  src={data?.photoURL} >{data?.username}</Avatar>
+          <Avatar  src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -229,7 +228,7 @@ export default function NavBar(props:NavBarProps) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar  src={data?.photoURL} >{data?.username}</Avatar>
+              <Avatar  src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
