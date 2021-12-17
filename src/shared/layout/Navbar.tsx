@@ -17,6 +17,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AuthStore from '../authStore/AuthStore';
 import Avatar from '@material-ui/core/Avatar';
+import { Box } from '@material-ui/core'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grow: {
@@ -82,13 +83,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-// type Nullable<T> = T | null;
- interface NavBarProps{
-  data?: {
-    photoURL?:string;
-    username?:string;
-  }
- }
+
+type Nullable<T> = T | null;
+interface Data {
+  photoURL?:string;
+  username?:string;
+}
+interface NavBarProps{
+  data?: Nullable<Data>
+}
 export default function NavBar(props:NavBarProps) {
  
 
@@ -188,9 +191,11 @@ export default function NavBar(props:NavBarProps) {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
+          <Box width={1}>
           <Typography className={classes.title} variant="h3" noWrap>
             Instagram
           </Typography>
+          </Box>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />

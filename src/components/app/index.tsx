@@ -23,9 +23,8 @@ function MyApp (){
     },[])
     return(
         <DashboardLayoutRoot >
-            {AuthStore.user?(
-                <NavBar data={AuthStore.user}/>
-            ):('')}
+           
+            <NavBar data={AuthStore.user}/>
             <DashboardLayoutContent>
                <Home/>
             </DashboardLayoutContent>
