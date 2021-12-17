@@ -19,9 +19,9 @@ export default function PostGrid() {
   },]
   return (
     <Box m={4}>
-      <Grid container direction='row' justifyContent='center' alignItems='center' spacing={3} >
-        { listPost.map(post =>(
-          <PostCard/>
+      <Grid container direction='row' justifyContent='center' alignItems='center' spacing={3}  >
+        { listPost.map((post,index )=>(
+          <PostCard key={index}/>
         ))}
       </Grid>
     </Box>

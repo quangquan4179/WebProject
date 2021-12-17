@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Box,
     Button,
@@ -8,14 +8,13 @@ import {
 } from '@material-ui/core';
 import { Link} from 'react-router-dom'
 import AuthStore from './../shared/authStore/AuthStore';
+import { useNavigate } from 'react-router-dom';
 interface IData {
   username: string,
   password: string
 }
-const Login :React.FC<{}> =()=>{
-    // const [loading, setLoading ]=useState(false);
-  
-  
+function Login(){
+    const navigate = useNavigate();
     const[formData,setFormData]=useState<IData>({
       username:'',
       password:'',
@@ -27,6 +26,7 @@ const Login :React.FC<{}> =()=>{
       e.preventDefault();
       console.log(username);
       await AuthStore.login(username,password);
+      navigate('/');
   };
     return(
       <React.Fragment>

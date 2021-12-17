@@ -8,12 +8,18 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+// import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AuthStore from '../authStore/AuthStore';
+import Avatar from '@material-ui/core/Avatar';
+import { Box } from '@material-ui/core'
+import {firstChar} from '../functions/sliceName'
+import { Data, Nullable} from '../interfaces'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,7 +87,15 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function NavBar() {
+
+interface NavBarProps{
+  data?: Nullable<Data>
+}
+export default function NavBar(props:NavBarProps) {
+ 
+
+  const {data}=props
+  console.log(data)
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -105,6 +119,10 @@ export default function NavBar() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleSignOut =()=>{
+    AuthStore.signout()
+    window.location.reload();
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -119,6 +137,11 @@ export default function NavBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleSignOut}> 
+        <IconButton>
+          <ExitToAppIcon/>
+        </IconButton>
+      </MenuItem>
     </Menu>
   );
 
@@ -156,7 +179,7 @@ export default function NavBar() {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar  src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -167,17 +190,11 @@ export default function NavBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+          <Box width={1}>
+          <Typography className={classes.title} variant="h3" noWrap>
+            Instagram
           </Typography>
+          </Box>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -211,7 +228,7 @@ export default function NavBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar  src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
