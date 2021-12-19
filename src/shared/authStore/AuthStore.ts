@@ -1,7 +1,7 @@
 import { makeObservable, observable } from "mobx";
 import AuthService from "./../../services/AuthService";
 class AuthStore {
-  isAuth = null;
+  isAuth = true;
   user = null;
   constructor() {
     makeObservable(this, {

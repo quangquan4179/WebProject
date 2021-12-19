@@ -11,18 +11,22 @@ import Menu from '@material-ui/core/Menu';
 // import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 // import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
+import ChatIcon from '@material-ui/icons/Chat';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AuthStore from '../authStore/AuthStore';
 import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
 import { Box } from '@material-ui/core'
-import {firstChar} from '../functions/sliceName'
-import { Data, Nullable} from '../interfaces'
+import { firstChar } from '../functions/sliceName'
+import { Data, Nullable } from '../interfaces'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      flexGrow: 1,
+    },
     grow: {
       flexGrow: 1,
     },
@@ -49,6 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: theme.spacing(3),
         width: 'auto',
       },
+      minWidth: '125px',
+      border: '1px solid gray',
+      opacity: 0.4,
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -76,6 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'none',
       [theme.breakpoints.up('md')]: {
         display: 'flex',
+        justifyContent: 'space-between',
       },
     },
     sectionMobile: {
@@ -84,17 +92,33 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    navbarStyle: {
+      top: '0px !important',
+      backgroundColor: '#fff',
+      color: '#000',
+      padding: '0 15%',
+      zIndex: 10
+    },
+    buttonCustom: {
+      "&:hover": {
+        backgroundColor: 'inherit',
+        opacity: 0.5,
+      }
+    },
+    dropdownMenu: {
+      marginTop: '45px',
+    }
   }),
 );
 
 
-interface NavBarProps{
+interface NavBarProps {
   data?: Nullable<Data>
 }
-export default function NavBar(props:NavBarProps) {
- 
+export default function NavBar(props: NavBarProps) {
 
-  const {data}=props
+
+  const { data } = props
   console.log(data)
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -119,11 +143,10 @@ export default function NavBar(props:NavBarProps) {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const handleSignOut =()=>{
+  const handleSignOut = () => {
     AuthStore.signout()
     window.location.reload();
   }
-
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -134,13 +157,12 @@ export default function NavBar(props:NavBarProps) {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      className={classes.dropdownMenu}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleSignOut}> 
-        <IconButton>
-          <ExitToAppIcon/>
-        </IconButton>
+      <MenuItem onClick={handleSignOut}>
+        Log out
       </MenuItem>
     </Menu>
   );
@@ -159,7 +181,7 @@ export default function NavBar(props:NavBarProps) {
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
-            <MailIcon />
+            <ChatIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -179,7 +201,7 @@ export default function NavBar(props:NavBarProps) {
           aria-haspopup="true"
           color="inherit"
         >
-          <Avatar  src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
+          <Avatar src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -187,13 +209,13 @@ export default function NavBar(props:NavBarProps) {
   );
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar>
-          <Box width={1}>
-          <Typography className={classes.title} variant="h3" noWrap>
-            Instagram
-          </Typography>
+    <div className={classes.root}>
+      <AppBar position="fixed" className={classes.navbarStyle}>
+        <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box>
+            <Typography className={classes.title} variant="h3" noWrap>
+              Instagram
+            </Typography>
           </Box>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -208,14 +230,13 @@ export default function NavBar(props:NavBarProps) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
               <Badge badgeContent={4} color="secondary">
-                <MailIcon />
+                <ChatIcon />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            <IconButton aria-label="show 17 new notifications" color="inherit" className={classes.buttonCustom}>
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
@@ -228,7 +249,7 @@ export default function NavBar(props:NavBarProps) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar  src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
+              <Avatar src={data?.photoURL} >{firstChar(data?.username)}</Avatar>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
