@@ -102,9 +102,9 @@ const Register :React.FC<{}> =()=>{
 
             </form>
             <Box sx={{ mb: 3 }}>
-              <Link to='/login'>
+              <Link to='/login' style={{textDecoration: 'none', float: 'right'}}>
               <Typography color='textPrimary'>
-                 Bạn đã có tài khoản ? Sign In
+                 Bạn đã có tài khoản
               </Typography>
               </Link>
             </Box>

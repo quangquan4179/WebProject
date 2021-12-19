@@ -95,11 +95,11 @@ function Login(){
 
             </form>
             <Box sx={{ mb: 3 }}>
-              <Link to='/register'>
+              <Link to='/register' style={{textDecoration: 'none', float: 'right'}}>
                 <Typography
                   color='textPrimary'
                 >
-                  Bạn chưa có tài khoản? Sign Up
+                  Bạn chưa có tài khoản
                 </Typography>
               </Link>
             </Box>
