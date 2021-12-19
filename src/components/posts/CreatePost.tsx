@@ -33,74 +33,72 @@ export default function CreatePost(props: Props): ReactElement {
     }
     return (
         <div>
-            <Box sx={{ marginTop: '80px' }}>
-                <Grid container direction='row' justifyContent='center' alignItems='center' spacing={3} >
-                    <Box m={1} >
-                        <Card>
-                            <CardContent>
-                                <Box sx={{ width: '70%' }} display="flex">
-                                    <Avatar aria-label="recipe">{firstChar(props.data?.username)}</Avatar>
-                                    <Box>
-                                        <Button variant="outlined" color="primary" onClick={handleClickOpen} style={{ width: '550px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}>
-                                            {props.data?.username} ơi, Bạn nghĩ gì vậy ?
-                                        </Button>
-                                        <Dialog
-                                            open={open}
-                                            onClose={handleClose}
-                                            aria-labelledby="alert-dialog-title"
-                                            aria-describedby="alert-dialog-description"
-                                            fullWidth
-                                            maxWidth="sm"
-                                        >
-                                            <DialogTitle id="alert-dialog-title">{"Tạo bài viết"}</DialogTitle>
-                                            <DialogContent>
-                                                <Box width="100%">
-                                                    <Avatar aria-label="recipe">R</Avatar>
-                                                    <form>
-                                                        <TextField
-                                                            id="outlined-multiline-static"
-                                                            multiline
-                                                            rows={4}
-                                                            variant="outlined"
-                                                            fullWidth
-                                                        />
-                                                        {file ?
-                                                            (<>
-                                                                <img alt="not fount" width={"550px"} src={URL.createObjectURL(file)} />
-                                                                <br />
-                                                            </>
-                                                            ) :
-                                                            ('')
-                                                        }
-
-                                                        <input type='file' onChange={handleChange} id="input-file"></input>
-
-                                                    </form>
-                                                </Box>
-                                                {/* </DialogContentText> */}
-                                            </DialogContent>
-
-                                            <DialogActions>
-                                                <Button onClick={handleClose} color="primary">
-                                                    Cancel
-                                                </Button>
-                                                <Button onClick={handleClose} color="primary" autoFocus>
-                                                    Agree
-                                                </Button>
-                                            </DialogActions>
-                                        </Dialog>
+            <Box sx={{ marginTop: '80px', display: 'flex', justifyContent: 'center' }}>
+                <Card style={{ width: '45%', padding: '20px 40px', display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ width: '10%' }}>
+                        <Avatar aria-label="recipe">{firstChar(props.data?.username)}</Avatar>
+                    </div>
+                    <div style={{ width: '90%' }}>
+                        <Box>
+                            <Button variant="outlined" onClick={handleClickOpen} style={{ width: '100%', borderRadius: '15px', opacity: '0.7' }}>
+                                {props.data?.username} ơi, Bạn nghĩ gì vậy ?
+                            </Button>
+                            <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                                fullWidth
+                                maxWidth="sm"
+                            >
+                                <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: 'center' }}>
+                                    <h2>
+                                        {"Tạo bài viết"}
+                                    </h2>
+                                </DialogTitle>
+                                <DialogContent>
+                                    <Box width="100%">
+                                        <form>
+                                            <TextField
+                                                id="outlined-multiline-static"
+                                                multiline
+                                                rows={4}
+                                                variant="outlined"
+                                                fullWidth
+                                            />
+                                            {file ?
+                                                (<>
+                                                    <img alt="not fount" width={"550px"} src={URL.createObjectURL(file)} />
+                                                    <br />
+                                                </>
+                                                ) :
+                                                ('')
+                                            }
+                                            <Button
+                                                variant="contained"
+                                                component="label"
+                                                style={{width: '100%', marginTop: '10px'}}
+                                            >
+                                                Tải ảnh
+                                                <input type='file' onChange={handleChange} id="input-file" hidden></input>
+                                            </Button>
+                                        </form>
                                     </Box>
+                                    {/* </DialogContentText> */}
+                                </DialogContent>
 
-                                </Box>
-                                <Box>
-                                    <Button variant="contained" color="primary" startIcon={<CloudUploadIcon />} onClick={handleClickOpen} >Ảnh</Button>
-                                </Box>
-                            </CardContent>
-
-                        </Card>
-
-                    </Box>
-                </Grid>
+                                <DialogActions>
+                                    <Button onClick={handleClose} style={{ color: 'gray' }}>
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleClose} style={{ color: 'gray' }} autoFocus>
+                                        Agree
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Box>
+                    </div>
+                </Card>
             </Box>
         </div>
     )
