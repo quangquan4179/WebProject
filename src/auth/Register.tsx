@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { Link} from 'react-router-dom'
 import AuthStore from '../shared/authStore/AuthStore'
+import { useNavigate } from 'react-router-dom';
 interface IData{
   username: string,
   password: string,
@@ -20,11 +21,16 @@ const Register :React.FC<{}> =()=>{
         password:'',
         passwordConfirm:''
     });
+    const navigate = useNavigate();
     const {username,password,passwordConfirm}:{ username: string, password:string,passwordConfirm:string}=formData;
     const handleChange =( e:any)=>setFormData({...formData,[e.target.name]:e.target.value});
     const handleSubmit =async (e:any) =>{
         e.preventDefault();
-        await AuthStore.register(username,password);
+        if(password===passwordConfirm){
+          await AuthStore.register(username,password);
+          navigate('/login');
+        }
+       
     };
     return(
       <React.Fragment>
@@ -61,7 +67,7 @@ const Register :React.FC<{}> =()=>{
               autoFocus
               placeholder='Nhập vào email'
               fullWidth
-              label='Email'
+              label='Username'
               margin='normal'
               variant='outlined'
               onChange={handleChange}

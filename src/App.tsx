@@ -1,12 +1,10 @@
 import { useEffect} from 'react';
-// import Auth from './auth'
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './shared/theme';
 import {
   BrowserRouter as Router,Routes,
   Route
 } from "react-router-dom";
-// import MyApp from './components/app'
 import { observer } from 'mobx-react-lite';
 import AuthStore from './shared/authStore/AuthStore'
 import Login from './auth/Login';

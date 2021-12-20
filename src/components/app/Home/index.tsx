@@ -13,7 +13,7 @@ const Home :React.FC=()=>{
      return(
          <React.Fragment>
              <CreatePost data={AuthStore.user}/>
-             <PostGrid/>
+             <PostGrid />
          </React.Fragment>
      )
 }

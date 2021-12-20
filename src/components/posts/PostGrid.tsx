@@ -1,8 +1,8 @@
-import React from 'react';
+import React,{ useEffect} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import PostCard from './Post';
-
+import PostStore from '../../stores/PostStore';
 export default function PostGrid() {
   const listPost = [{
     date: new Date(20/6/2000),
@@ -17,6 +17,12 @@ export default function PostGrid() {
     title: 'Post 3',
     content: 'content of Post 3'
   },]
+
+  useEffect(()=>{
+    const userId = localStorage.getItem('userId');
+    //call api o day voi postStore method getAllPostByUserId 
+    PostStore.getAllPostByUserId(Number(userId))
+  },[])
   return (
     <Box m={4}>
       <Grid container direction='row' justifyContent='center' alignItems='center' spacing={3}  >

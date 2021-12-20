@@ -72,7 +72,7 @@ function Login(){
             />
             <TextField
               name='password'
-              type='text'
+              type='password'
               id='password_login'
               placeholder='Nhập vào mật khẩu'
               fullWidth
