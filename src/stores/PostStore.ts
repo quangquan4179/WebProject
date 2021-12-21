@@ -1,5 +1,5 @@
 import { makeObservable, observable } from "mobx";
-import { getAllPost } from "../services/PostService";
+import { getAllPost, createPost } from "../services/PostService";
 class PostStore{
     posts=[];
     constructor(){
@@ -12,9 +12,13 @@ class PostStore{
         this.posts=arrayPosts
     }
 
-    async getAllPostByUserId( userId: number){
-
+    async getAllPost(){
+        const res = await getAllPost();
+        this.setPosts(res.data);
     }
-
+    
+    async createPost(content: string, photoURL: any, user_id: number){
+        const res = await createPost(content, photoURL, user_id);
+    }
 }
 export default new PostStore();

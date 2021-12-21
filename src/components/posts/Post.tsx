@@ -16,6 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Box} from '@material-ui/core'
+import { Nullable } from '../../shared/interfaces';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -40,8 +41,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+interface Props2 {
+  id: string,
+  title: string,
+  content: string,
+  user_id: number,
+  create_at: Date,
+};
+interface Props {
+  data?: Nullable<Props2>
+}
+export default function Post(props: Props) {
 
-export default function Post() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -63,7 +74,7 @@ export default function Post() {
                     <MoreVertIcon />
                 </IconButton>
                 }
-                title="Shrimp and Chorizo Paella"
+                title={props.data.title}
                 subheader="September 14, 2016"
             />
             <CardMedia
@@ -73,8 +84,7 @@ export default function Post() {
             />
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                This impressive paella is a perfect party dish and a fun meal to cook together with your
-                guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                  {props.data.content}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -84,7 +94,7 @@ export default function Post() {
                 <IconButton aria-label="share">
                 <ShareIcon />
                 </IconButton>
-                <IconButton
+                {/* <IconButton
                 className={clsx(classes.expand, {
                     [classes.expandOpen]: expanded,
                 })}
@@ -93,9 +103,9 @@ export default function Post() {
                 aria-label="show more"
                 >
                 <ExpandMoreIcon />
-                </IconButton>
+                </IconButton> */}
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+            {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                 <Typography paragraph>Method:</Typography>
                 <Typography paragraph>
@@ -121,7 +131,7 @@ export default function Post() {
                     Set aside off of the heat to let rest for 10 minutes, and then serve.
                 </Typography>
                 </CardContent>
-            </Collapse>
+            </Collapse> */}
         </Card>
     </Box>
     

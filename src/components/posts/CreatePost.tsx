@@ -6,11 +6,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Data, Nullable } from '../../shared/interfaces'
 import { firstChar } from '../../shared/functions/sliceName'
+import PostStore from '../../stores/PostStore'
 interface Props {
     data?: Nullable<Data>
 }
 export default function CreatePost(props: Props): ReactElement {
-
+    const userId = localStorage.getItem('userId');
+    const [content, setContent] = React.useState('');
     const [open, setOpen] = React.useState(false);
     const [file, setFile] = React.useState<File>()
     const handleClickOpen = () => {
@@ -19,7 +21,7 @@ export default function CreatePost(props: Props): ReactElement {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fileList = event.target.files;
 
         if (!fileList) return;
@@ -30,6 +32,12 @@ export default function CreatePost(props: Props): ReactElement {
             const formData = new FormData();
             formData.append("image", file, file.name);
         }
+    }
+    const handleChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setContent(event.target.value);
+    }
+    const handleSubmit = () => {
+        PostStore.createPost(content,file,Number(userId));
     }
     return (
         <div>
@@ -65,6 +73,8 @@ export default function CreatePost(props: Props): ReactElement {
                                                 rows={4}
                                                 variant="outlined"
                                                 fullWidth
+                                                name="content"
+                                                onChange={handleChangeContent}
                                             />
                                             {file ?
                                                 (<>
@@ -77,11 +87,12 @@ export default function CreatePost(props: Props): ReactElement {
                                             <Button
                                                 variant="contained"
                                                 component="label"
-                                                style={{width: '100%', marginTop: '10px'}}
+                                                style={{ width: '100%', marginTop: '10px' }}
                                             >
                                                 Tải ảnh
-                                                <input type='file' onChange={handleChange} id="input-file" hidden></input>
+                                                <input type='file' onChange={handleChangeFile} id="input-file" hidden></input>
                                             </Button>
+                                            <Button type="submit" onClick={handleSubmit}>Đăng lên</Button>
                                         </form>
                                     </Box>
                                     {/* </DialogContentText> */}
