@@ -91,8 +91,9 @@ export default function CreatePost(props: Props): ReactElement {
                                                 Tải ảnh
                                                 <input type='file' onChange={handleChangeFile} id="input-file" hidden></input>
                                             </Button>
-                                            <Button type="submit" onClick={uploadFile}>Đăng lên</Button>
+                                            
                                         </form>
+                                        <Button type="submit" onClick={uploadFile}>Đăng lên</Button>
                                     </Box>
                                     {/* </DialogContentText> */}
                                 </DialogContent>
