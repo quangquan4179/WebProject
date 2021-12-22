@@ -27,12 +27,15 @@ export default function CreatePost(props: Props): ReactElement {
         if (!fileList) return;
         setFile(fileList[0]);
     }
-    const uploadFile = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const uploadFile = async(e: any) => {
+        e.preventDefault();
+        const formData = new FormData();
         if (file) {
-            const formData = new FormData();
+           
             formData.append("image", file, file.name);
-            PostStore.createPost(content,formData,Number(userId));
+            
         }
+        PostStore.createPost(content,formData,Number(userId));
     }
     const handleChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
         setContent(event.target.value);
@@ -65,7 +68,7 @@ export default function CreatePost(props: Props): ReactElement {
                                 </DialogTitle>
                                 <DialogContent>
                                     <Box width="100%">
-                                        <form>
+                                        <form onSubmit={uploadFile}>
                                             <TextField
                                                 id="outlined-multiline-static"
                                                 multiline
@@ -91,9 +94,10 @@ export default function CreatePost(props: Props): ReactElement {
                                                 Tải ảnh
                                                 <input type='file' onChange={handleChangeFile} id="input-file" hidden></input>
                                             </Button>
+                                            <Button type="submit" >Đăng lên</Button>
                                             
                                         </form>
-                                        <Button type="submit" onClick={uploadFile}>Đăng lên</Button>
+                                       
                                     </Box>
                                     {/* </DialogContentText> */}
                                 </DialogContent>
