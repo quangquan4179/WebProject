@@ -10,6 +10,8 @@ import AuthStore from './shared/authStore/AuthStore'
 import Login from './auth/Login';
 import Register from './auth/Register'
 import RedirectLogin from './components/RedirectLogin';
+import MyApp from './components/app/index'
+import Chat from './components/chats';
 function App() {
   useEffect(()=>{
     AuthStore.loadUser()
@@ -21,7 +23,10 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login/>}/>
             <Route path ='/register' element={<Register/>}/>
-            <Route path ='/' element={<RedirectLogin/>}/>
+            {/* <Route path ='/' element={<RedirectLogin/>}/> */}
+            <Route path ='/' element={<MyApp/>}/>
+            <Route path ='/chat' element={<Chat/>}/>
+            
           </Routes>
         </Router>
       </div>

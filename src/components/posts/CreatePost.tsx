@@ -30,10 +30,8 @@ export default function CreatePost(props: Props): ReactElement {
     const uploadFile = async(e: any) => {
         e.preventDefault();
         const formData = new FormData();
-        if (file) {
-           
+        if (file) { 
             formData.append("image", file, file.name);
-            
         }
         PostStore.createPost(content,formData,Number(userId));
     }
