@@ -65,7 +65,7 @@ function Login(){
               autoFocus
               placeholder='Nhập vào email'
               fullWidth
-              label='username'
+              label='Username'
               margin='normal'
               variant='outlined'
               onChange={handleChange}

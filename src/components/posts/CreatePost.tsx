@@ -31,14 +31,13 @@ export default function CreatePost(props: Props): ReactElement {
         if (file) {
             const formData = new FormData();
             formData.append("image", file, file.name);
+            PostStore.createPost(content,formData,Number(userId));
         }
     }
     const handleChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
         setContent(event.target.value);
     }
-    const handleSubmit = () => {
-        PostStore.createPost(content,file,Number(userId));
-    }
+    
     return (
         <div>
             <Box sx={{ marginTop: '80px', display: 'flex', justifyContent: 'center' }}>
@@ -92,7 +91,7 @@ export default function CreatePost(props: Props): ReactElement {
                                                 Tải ảnh
                                                 <input type='file' onChange={handleChangeFile} id="input-file" hidden></input>
                                             </Button>
-                                            <Button type="submit" onClick={handleSubmit}>Đăng lên</Button>
+                                            <Button type="submit" onClick={uploadFile}>Đăng lên</Button>
                                         </form>
                                     </Box>
                                     {/* </DialogContentText> */}
