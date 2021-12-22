@@ -37,8 +37,19 @@ function Login(){
           draggable: true,
           progress: undefined,
         })
+      }else{
+        toast.success('Login Success.', {
+          position: 'top-right',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        navigate('/');
       }
-      navigate('/');
+      
   };
     return(
       <React.Fragment>

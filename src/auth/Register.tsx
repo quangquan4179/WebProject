@@ -28,9 +28,8 @@ const Register :React.FC<{}> =()=>{
     const handleSubmit =async (e:any) =>{
         e.preventDefault();
         if(password===passwordConfirm){
-          const res =await AuthStore.register(username,password);
-          if(res.success===false){
-            toast('Đăng kí false.', {
+          if(password.length<6){
+            toast.error('Mat khau qua ngan.', {
               position: 'top-right',
               autoClose: 1500,
               hideProgressBar: false,
@@ -39,11 +38,50 @@ const Register :React.FC<{}> =()=>{
               draggable: true,
               progress: undefined,
             })
-
           }
           else{
-          navigate('/login');
+            const res =await AuthStore.register(username,password);
+            if(res.success){
+              toast.success('Đăng kí thanh cong.', {
+                position: 'top-right',
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              })
+              navigate('/login');
+
+            }
+            else{
+              toast.error('Đăng kí that bai.', {
+                position: 'top-right',
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              })
+
+            }
+            
+          
+          
           }
+        }
+        else{
+          toast.error('Mat Khau khong khop.', {
+            position: 'top-right',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+
         }
        
     };

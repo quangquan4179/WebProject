@@ -7,6 +7,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import AuthStore from './shared/authStore/AuthStore'
 import MyApp from './components/app/index'
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Auth from './auth';
 import { AppRoute } from "./routes/routes"
