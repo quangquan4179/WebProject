@@ -14,14 +14,14 @@ import SearchIcon from '@material-ui/icons/Search';
 import ChatIcon from '@material-ui/icons/Chat';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+// import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AuthStore from '../authStore/AuthStore';
 import Avatar from '@material-ui/core/Avatar';
-import Tooltip from '@material-ui/core/Tooltip';
+// import Tooltip from '@material-ui/core/Tooltip';
 import { Box } from '@material-ui/core'
 import { firstChar } from '../functions/sliceName'
 import { Data, Nullable } from '../interfaces'
-
+import {Link} from 'react-router-dom'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -147,6 +147,7 @@ export default function NavBar(props: NavBarProps) {
     AuthStore.signout()
     window.location.reload();
   }
+ 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -179,7 +180,7 @@ export default function NavBar(props: NavBarProps) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
+        <IconButton aria-label="show 4 new mails" color="inherit" >
           <Badge badgeContent={4} color="secondary">
             <ChatIcon />
           </Badge>
@@ -213,9 +214,11 @@ export default function NavBar(props: NavBarProps) {
       <AppBar position="fixed" className={classes.navbarStyle}>
         <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box>
-            <Typography className={classes.title} variant="h3" noWrap>
-              Instagram
-            </Typography>
+            <Link to='/'>
+              <Typography className={classes.title} variant="h3" noWrap>
+                Instagram
+              </Typography>
+            </Link>
           </Box>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -231,11 +234,13 @@ export default function NavBar(props: NavBarProps) {
             />
           </div>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
-              <Badge badgeContent={4} color="secondary">
-                <ChatIcon />
-              </Badge>
-            </IconButton>
+            <Link to='/inbox'>
+              <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
+                <Badge badgeContent={4} color="secondary">
+                  <ChatIcon />
+                </Badge>
+              </IconButton>
+            </Link>
             <IconButton aria-label="show 17 new notifications" color="inherit" className={classes.buttonCustom}>
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />

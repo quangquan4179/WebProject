@@ -1,35 +1,41 @@
-import { useEffect} from 'react';
+import { ReactNode, useEffect,useState} from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './shared/theme';
 import {
-  BrowserRouter as Router,Routes,
-  Route
+  BrowserRouter as Router
 } from "react-router-dom";
 import { observer } from 'mobx-react-lite';
 import AuthStore from './shared/authStore/AuthStore'
-import Login from './auth/Login';
-import Register from './auth/Register'
-import RedirectLogin from './components/RedirectLogin';
 import MyApp from './components/app/index'
-import Chat from './components/chats';
+import { ToastContainer } from "react-toastify";
+import Auth from './auth';
+import { AppRoute } from "./routes/routes"
 function App() {
+  const [component, setComponent] = useState<ReactNode>();
+  const getCurrentView = () => {
+    if(AuthStore.user){
+      return <MyApp route={AppRoute}/>
+    }
+    return <Auth/>
+  }
   useEffect(()=>{
-    AuthStore.loadUser()
+    const userId = localStorage.getItem('userId');
+    if(Boolean(userId)){
+      AuthStore.loadUser(Number(userId))
+    }
   },[])
+  useEffect(() => {
+    setComponent(getCurrentView());
+  }, [AuthStore.isAuth]);
+  
   return (
     <ThemeProvider theme={theme}>
       <div className="container">
         <Router>
-          <Routes>
-            <Route path='/login' element={<Login/>}/>
-            <Route path ='/register' element={<Register/>}/>
-            <Route path ='/' element={<RedirectLogin/>}/>
-            {/* <Route path ='/' element={<MyApp/>}/> */}
-            {/* <Route path ='/chat' element={<Chat/>}/> */}
-            
-          </Routes>
+          {component}
         </Router>
       </div>
+      <ToastContainer />
     </ThemeProvider>
   );
 }

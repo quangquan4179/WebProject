@@ -9,6 +9,7 @@ import {
 import { Link} from 'react-router-dom'
 import AuthStore from '../shared/authStore/AuthStore'
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 interface IData{
   username: string,
   password: string,
@@ -27,8 +28,22 @@ const Register :React.FC<{}> =()=>{
     const handleSubmit =async (e:any) =>{
         e.preventDefault();
         if(password===passwordConfirm){
-          await AuthStore.register(username,password);
+          const res =await AuthStore.register(username,password);
+          if(res.success===false){
+            toast('Đăng kí false.', {
+              position: 'top-right',
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+
+          }
+          else{
           navigate('/login');
+          }
         }
        
     };

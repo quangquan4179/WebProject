@@ -4,7 +4,7 @@ import PostGrid from '../../posts/PostGrid';
 import { observer } from "mobx-react-lite";
 import AuthStore from '../../../shared/authStore/AuthStore'
 
-const Home :React.FC=()=>{
+const Home =()=>{
     useEffect(()=>{
         const userId = localStorage.getItem('userId');
         Promise.all([AuthStore.getUser(Number(userId))])

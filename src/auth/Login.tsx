@@ -9,6 +9,7 @@ import {
 import { Link} from 'react-router-dom'
 import AuthStore from './../shared/authStore/AuthStore';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 interface IData {
   username: string,
   password: string
@@ -24,8 +25,19 @@ function Login(){
 
     const handleSubmit =async (e:any) =>{
       e.preventDefault();
-      console.log(username);
-      await AuthStore.login(username,password);
+      const res =await AuthStore.login(username,password);
+      console.log(res)
+      if(res.success===false){
+        toast.error('Login false.', {
+          position: 'top-right',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
       navigate('/');
   };
     return(

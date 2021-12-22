@@ -1,7 +1,7 @@
 import { makeObservable, observable } from "mobx";
 import AuthService from "./../../services/AuthService";
 class AuthStore {
-  isAuth = true;
+  isAuth = false;
   user = null;
   constructor() {
     makeObservable(this, {
@@ -9,23 +9,28 @@ class AuthStore {
       user: observable,
     });
   }
-    setUser(data: any) {
+    setUser(data: any,isAuth:boolean) {
     this.user = data;
+    this.isAuth=isAuth
   }
   async login(username: string, password: string) {
     const res = await AuthService.login(username, password);
     if(res.success===true){
-      this.setUser(res.data.user)
+      this.setUser(res.data.user,true)
+      
       this.storeUserId(res.data.user.id)
       this.storeToken(res.data)
     }
+    return res;
   }
   async register(username:string, password:string){
     const res = await AuthService.register(username,password);
+    return res ;
   }
   async getUser(userId:number){
     const res = await AuthService.checkToken(userId);
-    this.setUser(res.data)
+    this.setUser(res.data,true)
+
   }
   storeToken(token: any) {
     localStorage.setItem('accessToken', JSON.stringify(token.token))
@@ -36,7 +41,8 @@ class AuthStore {
 
   signout(){
     localStorage.removeItem('accessToken')
-    this.setUser(null);
+    this.setUser(null,false);
+    localStorage.removeItem('userId')
   }
   getAccessToken() {
     const accessToken = localStorage.getItem('accessToken')
@@ -45,8 +51,9 @@ class AuthStore {
     }
     return ''
   }
-  loadUser(){
-    const accessToken = this.getAccessToken()
+  loadUser(userID:number){
+    // const accessToken = this.getAccessToken()
+    this.getUser(userID)
   }
 }
 export default new AuthStore();
