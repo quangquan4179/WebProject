@@ -23,9 +23,9 @@ function App() {
           <Routes>
             <Route path='/login' element={<Login/>}/>
             <Route path ='/register' element={<Register/>}/>
-            {/* <Route path ='/' element={<RedirectLogin/>}/> */}
-            <Route path ='/' element={<MyApp/>}/>
-            <Route path ='/chat' element={<Chat/>}/>
+            <Route path ='/' element={<RedirectLogin/>}/>
+            {/* <Route path ='/' element={<MyApp/>}/> */}
+            {/* <Route path ='/chat' element={<Chat/>}/> */}
             
           </Routes>
         </Router>

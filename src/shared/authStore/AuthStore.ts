@@ -14,9 +14,11 @@ class AuthStore {
   }
   async login(username: string, password: string) {
     const res = await AuthService.login(username, password);
-    this.setUser(res.data.user)
-    this.storeUserId(res.data.user.id)
-    this.storeToken(res.data)
+    if(res.success===true){
+      this.setUser(res.data.user)
+      this.storeUserId(res.data.user.id)
+      this.storeToken(res.data)
+    }
   }
   async register(username:string, password:string){
     const res = await AuthService.register(username,password);
