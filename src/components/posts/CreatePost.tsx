@@ -7,6 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Data, Nullable } from '../../shared/interfaces'
 import { firstChar } from '../../shared/functions/sliceName'
 import PostStore from '../../stores/PostStore'
+import uploadImage from '../../shared/functions/uploadImage'
 interface Props {
     data?: Nullable<Data>
 }
@@ -28,12 +29,13 @@ export default function CreatePost(props: Props): ReactElement {
         setFile(fileList[0]);
     }
     const uploadFile = async(e: any) => {
+        uploadImage(file);
         e.preventDefault();
         const formData = new FormData();
         if (file) { 
             formData.append("image", file, file.name);
         }
-        PostStore.createPost(content,formData,Number(userId));
+        // PostStore.createPost(content,formData,Number(userId));
     }
     const handleChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
         setContent(event.target.value);
