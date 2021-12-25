@@ -29,13 +29,16 @@ export default function CreatePost(props: Props): ReactElement {
         setFile(fileList[0]);
     }
     const uploadFile = async(e: any) => {
-        uploadImage(file);
+       
         e.preventDefault();
-        const formData = new FormData();
+        
+        
         if (file) { 
-            formData.append("image", file, file.name);
+            const formData = new FormData();
+            formData.append("image", file);
+            uploadImage(file,content,Number(userId));
         }
-        // PostStore.createPost(content,formData,Number(userId));
+       
     }
     const handleChangeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
         setContent(event.target.value);
@@ -105,9 +108,6 @@ export default function CreatePost(props: Props): ReactElement {
                                 <DialogActions>
                                     <Button onClick={handleClose} style={{ color: 'gray' }}>
                                         Cancel
-                                    </Button>
-                                    <Button onClick={handleClose} style={{ color: 'gray' }} autoFocus>
-                                        Agree
                                     </Button>
                                 </DialogActions>
                             </Dialog>

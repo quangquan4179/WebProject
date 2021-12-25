@@ -1,16 +1,21 @@
 import { pathToFileURL } from "url";
 import { storage } from "../../firebase/firebase";
-
-const uploadImage = function (path: any) {
+import PostStore from "../../stores/PostStore";
+const uploadImage = function (path: any,content: string, userId:number) {
+  new Promise((resolve, reject) => {
   const uploadTask = storage.ref(`images/${path.name}`).put(path);
   uploadTask.on("state_changed", () => {
     storage
       .ref("images")
       .child(path.name)
       .getDownloadURL()
-      .then((downloadURL) => {
-        console.log("File available at", downloadURL);
-      });
+      .then((photoURL) => {
+        PostStore.createPost(content,photoURL,userId)
+      })
+      .catch((err)=>console.log(err))
   });
-};
+}
+  )
+
+}
 export default uploadImage;

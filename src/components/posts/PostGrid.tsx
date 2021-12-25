@@ -7,7 +7,6 @@ export default function PostGrid() {
 
   useEffect(()=>{
     const userId = localStorage.getItem('userId');
-    //call api o day voi postStore method getAllPost 
     PostStore.getAllPost();
   },[])
   return (
