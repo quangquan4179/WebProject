@@ -21,7 +21,8 @@ import Avatar from '@material-ui/core/Avatar';
 import { Box } from '@material-ui/core'
 import { firstChar } from '../functions/sliceName'
 import { Data, Nullable } from '../interfaces'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import logo from './../../img/logo.png'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -111,12 +112,10 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
 interface NavBarProps {
   data?: Nullable<Data>
 }
 export default function NavBar(props: NavBarProps) {
-
 
   const { data } = props
   console.log(data)
@@ -147,7 +146,7 @@ export default function NavBar(props: NavBarProps) {
     AuthStore.signout()
     window.location.reload();
   }
- 
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -181,7 +180,7 @@ export default function NavBar(props: NavBarProps) {
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit" >
-          <Badge badgeContent={4} color="secondary">
+          <Badge badgeContent={4} color="primary">
             <ChatIcon />
           </Badge>
         </IconButton>
@@ -189,7 +188,7 @@ export default function NavBar(props: NavBarProps) {
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
+          <Badge badgeContent={11} color="primary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -215,9 +214,7 @@ export default function NavBar(props: NavBarProps) {
         <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box>
             <Link to='/'>
-              <Typography className={classes.title} variant="h3" noWrap>
-                Instagram
-              </Typography>
+              <img src={logo} alt='yume-logo' style={{ height: '60px' }} />
             </Link>
           </Box>
           <div className={classes.search}>
@@ -234,15 +231,15 @@ export default function NavBar(props: NavBarProps) {
             />
           </div>
           <div className={classes.sectionDesktop}>
-            <Link to='/inbox'>
-              <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
-                <Badge badgeContent={4} color="secondary">
+            <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
+              <Link to='/inbox'>
+                <Badge badgeContent={4} color="primary">
                   <ChatIcon />
                 </Badge>
-              </IconButton>
-            </Link>
+              </Link>
+            </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit" className={classes.buttonCustom}>
-              <Badge badgeContent={17} color="secondary">
+              <Badge badgeContent={17} color="primary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
