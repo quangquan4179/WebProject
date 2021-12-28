@@ -19,7 +19,8 @@ import Avatar from '@material-ui/core/Avatar';
 import { Box, Divider, Paper } from '@material-ui/core'
 import { firstChar } from '../functions/sliceName'
 import { Data, Nullable } from '../interfaces'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import logo from './../../img/logo.png'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -109,14 +110,10 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const ITEM_HEIGHT = 48;
-
-
 interface NavBarProps {
   data?: Nullable<Data>
 }
 export default function NavBar(props: NavBarProps) {
-
 
   const { data } = props
   console.log(data)
@@ -152,9 +149,6 @@ export default function NavBar(props: NavBarProps) {
     AuthStore.signout()
     window.location.reload();
   }
-  const handleOpenChat =(event: React.MouseEvent<HTMLElement>)=>{
-    setOpen(event.currentTarget)
-  }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -188,7 +182,7 @@ export default function NavBar(props: NavBarProps) {
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit" >
-          <Badge badgeContent={4} color="secondary">
+          <Badge badgeContent={4} color="primary">
             <ChatIcon />
           </Badge>
         </IconButton>
@@ -196,7 +190,7 @@ export default function NavBar(props: NavBarProps) {
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
+          <Badge badgeContent={11} color="primary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -222,9 +216,7 @@ export default function NavBar(props: NavBarProps) {
         <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box>
             <Link to='/'>
-              <Typography className={classes.title} variant="h3" noWrap>
-                Instagram
-              </Typography>
+              <img src={logo} alt='yume-logo' style={{ height: '60px' }} />
             </Link>
           </Box>
           <div className={classes.search}>
@@ -241,37 +233,15 @@ export default function NavBar(props: NavBarProps) {
             />
           </div>
           <div className={classes.sectionDesktop}>
-            <Link to='/inbox'>
-              <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom} onClick={handleOpenChat}>
-                <Badge badgeContent={4} color="secondary">
+            <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
+              <Link to='/inbox'>
+                <Badge badgeContent={4} color="primary">
                   <ChatIcon />
                 </Badge>
-              </IconButton>
-            </Link>
-            {/* <Menu 
-                id="long-menu"
-                anchorEl={open}
-                open={openChat} 
-                keepMounted
-                anchorOrigin={{ vertical: "bottom", horizontal: 'left' }} 
-                transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-
-                onClose={handleClose}
-                PaperProps={{
-                    style: {
-                      maxHeight: ITEM_HEIGHT * 19,
-                      minHeight: ITEM_HEIGHT*19,
-                      width: "60ch",
-                    },
-                }}>
-             
-               <MenuItem>
-                  <Typography variant="h5"> In box</Typography>
-                </MenuItem>
-                <Divider/>
-            </Menu> */}
+              </Link>
+            </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit" className={classes.buttonCustom}>
-              <Badge badgeContent={17} color="secondary">
+              <Badge badgeContent={17} color="primary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
