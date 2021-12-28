@@ -5,7 +5,7 @@ import {Route, Routes} from "react-router-dom"
 import AuthStore from "../../shared/authStore/AuthStore";
 import { observer } from "mobx-react-lite";
 import Home from "./Home";
-import RedirectCompoenent from "../RedirectComponent";
+import RedirectComponent from "../RedirectComponent";
 
 import Chat from "../chats";
 const DashboardLayoutRoot = styled('div')(({theme}) => ({
@@ -41,7 +41,7 @@ function MyApp (props: appRoute){
               
                <Routes>
                    {props.route.map((item)=>{
-                    return(<Route key={item.path} path ={item.path} element={<RedirectCompoenent component={item.component}/>}/>)
+                    return(<Route key={item.path} path ={item.path} element={<RedirectComponent component={item.component}/>}/>)
                    }    
                    )}
                </Routes>

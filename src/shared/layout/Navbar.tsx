@@ -10,15 +10,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 // import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-// import AccountCircle from '@material-ui/icons/AccountCircle';
 import ChatIcon from '@material-ui/icons/Chat';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-// import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AuthStore from '../authStore/AuthStore';
 import Avatar from '@material-ui/core/Avatar';
 // import Tooltip from '@material-ui/core/Tooltip';
-import { Box } from '@material-ui/core'
+import { Box, Divider, Paper } from '@material-ui/core'
 import { firstChar } from '../functions/sliceName'
 import { Data, Nullable } from '../interfaces'
 import {Link} from 'react-router-dom'
@@ -111,6 +109,8 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const ITEM_HEIGHT = 48;
+
 
 interface NavBarProps {
   data?: Nullable<Data>
@@ -121,12 +121,13 @@ export default function NavBar(props: NavBarProps) {
   const { data } = props
   console.log(data)
   const classes = useStyles();
+  const [open,setOpen] = React.useState<null | HTMLElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const openChat = Boolean(open)
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -137,8 +138,12 @@ export default function NavBar(props: NavBarProps) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    
     handleMobileMenuClose();
   };
+  const handleClose =()=>{
+    setOpen(null)
+  }
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -147,7 +152,9 @@ export default function NavBar(props: NavBarProps) {
     AuthStore.signout()
     window.location.reload();
   }
- 
+  const handleOpenChat =(event: React.MouseEvent<HTMLElement>)=>{
+    setOpen(event.currentTarget)
+  }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -235,12 +242,34 @@ export default function NavBar(props: NavBarProps) {
           </div>
           <div className={classes.sectionDesktop}>
             <Link to='/inbox'>
-              <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
+              <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom} onClick={handleOpenChat}>
                 <Badge badgeContent={4} color="secondary">
                   <ChatIcon />
                 </Badge>
               </IconButton>
             </Link>
+            {/* <Menu 
+                id="long-menu"
+                anchorEl={open}
+                open={openChat} 
+                keepMounted
+                anchorOrigin={{ vertical: "bottom", horizontal: 'left' }} 
+                transformOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                      maxHeight: ITEM_HEIGHT * 19,
+                      minHeight: ITEM_HEIGHT*19,
+                      width: "60ch",
+                    },
+                }}>
+             
+               <MenuItem>
+                  <Typography variant="h5"> In box</Typography>
+                </MenuItem>
+                <Divider/>
+            </Menu> */}
             <IconButton aria-label="show 17 new notifications" color="inherit" className={classes.buttonCustom}>
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
