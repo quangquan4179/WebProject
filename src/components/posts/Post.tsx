@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { makeStyles, Theme, createStyles, withStyles, WithStyles, } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CloseIcon from '@material-ui/icons/Close';
@@ -16,14 +16,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Box, Modal, Fade } from '@material-ui/core'
+import { Box, Modal } from '@material-ui/core'
 import { Nullable } from '../../shared/interfaces';
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import CommentStore from '../../stores/CommentStore';
+import { observer } from "mobx-react-lite";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -148,38 +148,21 @@ const styles = (theme: Theme) =>
   })
 
 
-export interface DialogTitleProps extends WithStyles<typeof styles> {
-  id: string;
-  children: React.ReactNode;
-  onClose: () => void;
-}
+interface data{
+  comment: string,
+  created_at:string,
+  id:number,
+  post_id: number,
+  updated_at: string,
+  user:{
+    id: number,
+    photoURL: string |null,
 
-const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
+    username: string
+  } ,
+  user_id: number
+  }
 
-const DialogContent = withStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
 
 interface Props2 {
   id: string,
@@ -188,31 +171,48 @@ interface Props2 {
   user_id: number,
   create_at: Date,
   photoURL: string
+  user:{
+    username:string,
+    photoURL:null|string
+  }
 };
 interface Props {
   data?: Nullable<Props2>
 }
-export default function Post(props: Props) {
+ function Post(props: Props) {
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [comment, setComment]= React.useState('')
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const handleOpen = () => {
+  const handleOpen = async() => {
     setOpen(true);
+    await CommentStore.getAllComment(Number(props.data.id));
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const handleChangeComment = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(event.target.value);
+}
+  const handleSubmit=async(e:any)=>{
+    e.preventDefault();
+    await CommentStore.postComment(comment,Number(props.data.id));
+    setComment('');
+
+  }
+
+ 
   return (
     <Box sx={{ width: '70%' }} m={1} >
       <Card >
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              R
+              {props.data.user.username}
             </Avatar>
           }
           action={
@@ -235,22 +235,21 @@ export default function Post(props: Props) {
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
-          {/* <IconButton >
-            < ChatBubbleOutlineIcon />
-          </IconButton> */}
         </CardActions>
         <div className={classes.countLikes}>77,413 likes</div>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            <span className={classes.postOwnerName}>Tên thằng post</span>
+            <span className={classes.postOwnerName}>{props.data.user.username}</span>
             {props.data.content}
           </Typography>
         </CardContent>
         <div className={classes.viewAllComments} onClick={handleOpen}>View all comments</div>
 
         <div className={classes.postFooter}>
-          <input placeholder="Add a comment . . ." className={classes.commentInput} />
-          <div className={classes.commentButton}>Post</div>
+        <form onSubmit={handleSubmit}>
+                <input placeholder="Add a comment . . ." className={classes.commentInput}  onChange={handleChangeComment}/>
+                <button className={classes.commentButton} type="submit">Post</button>
+              </form>
         </div>
       </Card>
 
@@ -273,29 +272,36 @@ export default function Post(props: Props) {
             <div className={classes.headerComment}>
               <div>
                 <Avatar aria-label="recipe" className={classes.avatar}>
-                  R
+                {props.data.user.username}
                 </Avatar>
               </div>
-              <div>Tên</div>
+              <div>{props.data.user.username}</div>
             </div>
             <div className={classes.bodyComment}>
-              <div className={classes.commentItem}>
-                <div>
-                  <Avatar aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
-                    R
-                  </Avatar>
-                </div>
-                <div>
-                  <span style={{fontWeight: 500, color: 'black', marginRight: '5px'}}>Tên</span>
-                  <span>
-                    comment asdasdasdassssssssssssssss as dddddddddddddd dasdassssssssssssssss as dddddddddddddd dasdassssssssssssssss as dddddddddddddd
-                  </span>
-                </div>
-              </div>
+              {CommentStore.comments.map((data :data)=>{
+                console.log(data);
+                return(
+                <div className={classes.commentItem}>
+                  <div>
+                    <Avatar aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
+                     {data.user.username}
+                    </Avatar>
+                  </div>
+                  <div>
+                    <span style={{fontWeight: 500, color: 'black', marginRight: '5px'}}>{data.user.username}</span>
+                    <span>
+                      {data.comment}
+                    </span>
+                  </div>
+                </div>)
+              })}
             </div>
             <div className={classes.footerComment}>
-              <input placeholder="Add a comment . . ." className={classes.commentInput} />
-              <div className={classes.commentButton}>Post</div>
+              <form onSubmit={handleSubmit}>
+                <input placeholder="Add a comment . . ." className={classes.commentInput}  onChange={handleChangeComment}/>
+                <button className={classes.commentButton} type="submit">Post</button>
+              </form>
+              
             </div>
           </div>
         </div>
@@ -305,3 +311,5 @@ export default function Post(props: Props) {
 
   );
 }
+
+export default observer(Post)

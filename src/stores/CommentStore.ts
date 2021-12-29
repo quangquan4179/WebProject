@@ -16,6 +16,7 @@ class CommentStore{
         const res = await getAllCommentByPostId(id);
         if(res.success){
             this.setComments(res.data);
+            console.log(this.comments);
         }
 
     }
