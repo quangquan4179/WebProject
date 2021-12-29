@@ -196,7 +196,18 @@ export default function Post(props: Props) {
                 <Box  width={'700px'} sx={{
                   bgcolor:'red'
                 }}>
-                COMMENT HERE
+                <div>
+
+                  <div>
+                    <p>aaaaa</p>
+                  </div>
+                  <div>
+                    <form>
+                      <input  placeholder="Message . . ." />
+                      <Button>comment</Button>
+                    </form>
+                  </div>
+                </div>
                   
                 </Box>
           </Box>
