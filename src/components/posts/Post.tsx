@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Theme, createStyles, withStyles, WithStyles, } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CloseIcon from '@material-ui/icons/Close';
@@ -24,6 +24,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import CommentStore from '../../stores/CommentStore';
 import { observer } from "mobx-react-lite";
+import { NONAME } from 'dns';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -74,18 +75,24 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-between',
       borderTop: '1px solid rgba(var(--b6a,219,219,219),1)',
       padding: '11px 16px',
+      '& form': {
+        display: 'flex',
+        width: '100%',
+      },
     },
     commentInput: {
       width: '100%',
       border: '0',
       '&:focus': {
         outline: '0'
-      }
+      },
     },
     commentButton: {
-      cursor: 'pointer',
       marginRight: '5px',
-      color: 'rgba(var(--d69,0,149,246),1)'
+      cursor: 'pointer',
+      color: 'rgba(var(--d69,0,149,246),1)',
+      border: 0,
+      backgroundColor: 'transparent',
     },
     postOwnerName: {
       fontWeight: 700,
@@ -124,6 +131,10 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-between',
       borderTop: '1px solid rgba(var(--b6a,219,219,219),1)',
       padding: '11px 16px',
+      '& form': {
+        display: 'flex',
+        width: '100%',
+      },
     },
     commentItem: {
       display: 'flex',
@@ -148,20 +159,20 @@ const styles = (theme: Theme) =>
   })
 
 
-interface data{
+interface data {
   comment: string,
-  created_at:string,
-  id:number,
+  created_at: string,
+  id: number,
   post_id: number,
   updated_at: string,
-  user:{
+  user: {
     id: number,
-    photoURL: string |null,
+    photoURL: string | null,
 
     username: string
-  } ,
+  },
   user_id: number
-  }
+}
 
 
 interface Props2 {
@@ -171,24 +182,24 @@ interface Props2 {
   user_id: number,
   create_at: Date,
   photoURL: string
-  user:{
-    username:string,
-    photoURL:null|string
+  user: {
+    username: string,
+    photoURL: null | string
   }
 };
 interface Props {
   data?: Nullable<Props2>
 }
- function Post(props: Props) {
+function Post(props: Props) {
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [comment, setComment]= React.useState('')
+  const [comment, setComment] = React.useState('')
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const handleOpen = async() => {
+  const handleOpen = async () => {
     setOpen(true);
     await CommentStore.getAllComment(Number(props.data.id));
   };
@@ -197,18 +208,18 @@ interface Props {
   };
   const handleChangeComment = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
-}
-  const handleSubmit=async(e:any)=>{
+  }
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await CommentStore.postComment(comment,Number(props.data.id));
+    await CommentStore.postComment(comment, Number(props.data.id));
     setComment('');
 
   }
 
- 
+
   return (
     <Box sx={{ width: '70%' }} m={1} >
-      <Card >
+      <Card style={{border: '1px solid rgba(var(--b6a,219,219,219),1)'}}>
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
@@ -220,8 +231,8 @@ interface Props {
               <MoreVertIcon />
             </IconButton>
           }
-          title={props.data.title}
-          subheader="September 14, 2016"
+          title={props.data.user.username}
+          style={{color: 'rgba(var(--f75,38,38,38),1)', fontWeight: 600}}
         />
         <CardMedia
           className={classes.media}
@@ -246,10 +257,10 @@ interface Props {
         <div className={classes.viewAllComments} onClick={handleOpen}>View all comments</div>
 
         <div className={classes.postFooter}>
-        <form onSubmit={handleSubmit}>
-                <input placeholder="Add a comment . . ." className={classes.commentInput}  onChange={handleChangeComment}/>
-                <button className={classes.commentButton} type="submit">Post</button>
-              </form>
+          <form onSubmit={handleSubmit}>
+            <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} />
+            <button className={classes.commentButton} type="submit">Post</button>
+          </form>
         </div>
       </Card>
 
@@ -272,36 +283,36 @@ interface Props {
             <div className={classes.headerComment}>
               <div>
                 <Avatar aria-label="recipe" className={classes.avatar}>
-                {props.data.user.username}
+                  {props.data.user.username}
                 </Avatar>
               </div>
               <div>{props.data.user.username}</div>
             </div>
             <div className={classes.bodyComment}>
-              {CommentStore.comments.map((data :data)=>{
+              {CommentStore.comments.map((data: data) => {
                 console.log(data);
-                return(
-                <div className={classes.commentItem}>
-                  <div>
-                    <Avatar aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
-                     {data.user.username}
-                    </Avatar>
-                  </div>
-                  <div>
-                    <span style={{fontWeight: 500, color: 'black', marginRight: '5px'}}>{data.user.username}</span>
-                    <span>
-                      {data.comment}
-                    </span>
-                  </div>
-                </div>)
+                return (
+                  <div className={classes.commentItem}>
+                    <div>
+                      <Avatar aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
+                        {data.user.username}
+                      </Avatar>
+                    </div>
+                    <div>
+                      <span style={{ fontWeight: 500, color: 'black', marginRight: '5px' }}>{data.user.username}</span>
+                      <span>
+                        {data.comment}
+                      </span>
+                    </div>
+                  </div>)
               })}
             </div>
             <div className={classes.footerComment}>
               <form onSubmit={handleSubmit}>
-                <input placeholder="Add a comment . . ." className={classes.commentInput}  onChange={handleChangeComment}/>
+                <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} />
                 <button className={classes.commentButton} type="submit">Post</button>
               </form>
-              
+
             </div>
           </div>
         </div>

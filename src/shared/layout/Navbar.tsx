@@ -118,7 +118,7 @@ export default function NavBar(props: NavBarProps) {
   const { data } = props
   console.log(data)
   const classes = useStyles();
-  const [open,setOpen] = React.useState<null | HTMLElement>(null);
+  const [open, setOpen] = React.useState<null | HTMLElement>(null);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -135,10 +135,10 @@ export default function NavBar(props: NavBarProps) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    
+
     handleMobileMenuClose();
   };
-  const handleClose =()=>{
+  const handleClose = () => {
     setOpen(null)
   }
 
@@ -161,7 +161,11 @@ export default function NavBar(props: NavBarProps) {
       onClose={handleMenuClose}
       className={classes.dropdownMenu}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link to='./profile'>
+        <MenuItem onClick={handleMenuClose}>
+          profile
+        </MenuItem>
+      </Link>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleSignOut}>
         Log out
