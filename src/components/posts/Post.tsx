@@ -25,6 +25,7 @@ import Button from '@material-ui/core/Button';
 import CommentStore from '../../stores/CommentStore';
 import { observer } from "mobx-react-lite";
 import { NONAME } from 'dns';
+import { PostInterface, Comment } from '../../shared/interfaces';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -158,37 +159,8 @@ const styles = (theme: Theme) =>
     },
   })
 
-
-interface data {
-  comment: string,
-  created_at: string,
-  id: number,
-  post_id: number,
-  updated_at: string,
-  user: {
-    id: number,
-    photoURL: string | null,
-
-    username: string
-  },
-  user_id: number
-}
-
-
-interface Props2 {
-  id: string,
-  title: string,
-  content: string,
-  user_id: number,
-  create_at: Date,
-  photoURL: string
-  user: {
-    username: string,
-    photoURL: null | string
-  }
-};
 interface Props {
-  data?: Nullable<Props2>
+  data?: Nullable<PostInterface>
 }
 function Post(props: Props) {
 
@@ -201,7 +173,6 @@ function Post(props: Props) {
   };
   const handleOpen = async () => {
     setOpen(true);
-    await CommentStore.getAllComment(Number(props.data.id));
   };
   const handleClose = () => {
     setOpen(false);
@@ -289,7 +260,7 @@ function Post(props: Props) {
               <div>{props.data.user.username}</div>
             </div>
             <div className={classes.bodyComment}>
-              {CommentStore.comments.map((data: data) => {
+              {props.data.comments.map((data:Comment ) => {
                 console.log(data);
                 return (
                   <div className={classes.commentItem}>
@@ -299,7 +270,7 @@ function Post(props: Props) {
                       </Avatar>
                     </div>
                     <div>
-                      <span style={{ fontWeight: 500, color: 'black', marginRight: '5px' }}>{data.user.username}</span>
+                      <span style={{ fontWeight: 500, color: 'black', marginRight: '5px' }}> {data.user.username}</span>
                       <span>
                         {data.comment}
                       </span>

@@ -3,7 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Post from './Post';
 import PostStore from '../../stores/PostStore';
-export default function PostGrid() {
+import {observer} from 'mobx-react-lite'
+ function PostGrid() {
 
   useEffect(()=>{
     const userId = localStorage.getItem('userId');
@@ -19,3 +20,4 @@ export default function PostGrid() {
     </Box>
   );
 }
+export default observer(PostGrid)

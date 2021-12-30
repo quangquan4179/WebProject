@@ -12,4 +12,9 @@ export const createPost=async(content:string, photoURL:any, user_id:number)=>{
   const res = await axios.post('/posts',{
     content, photoURL, user_id
   })
+  return res.data
+}
+export const deletePost =async(post_id: number)=>{
+  const res = await axios.delete(`/posts/${post_id}`);
+
 }
