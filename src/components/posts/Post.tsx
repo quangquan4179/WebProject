@@ -16,16 +16,15 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Box, Modal } from '@material-ui/core'
+import { Box, Dialog, ListItem, Modal, List, Divider, ListItemText,DialogTitle } from '@material-ui/core'
 import { Nullable } from '../../shared/interfaces';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
+
 import Button from '@material-ui/core/Button';
-import CommentStore from '../../stores/CommentStore';
+// import CommentStore from '../../stores/CommentStore';
 import { observer } from "mobx-react-lite";
 import { NONAME } from 'dns';
 import { PostInterface, Comment } from '../../shared/interfaces';
+import PostStore from '../../stores/PostStore';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -142,22 +141,15 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'flex-start',
       alignItems: 'center',
       padding: '14px 16px'
+    },
+    list:{
+      width: '100%',
+      minwidth:360,
+      maxWidth: 500,
+      backgroundColor: theme.palette.background.paper,
     }
   }),
 );
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-    },
-    closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    },
-  })
 
 interface Props {
   data?: Nullable<PostInterface>
@@ -167,7 +159,9 @@ function Post(props: Props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
   const [comment, setComment] = React.useState('')
+  const userId = Number(localStorage.getItem('userId'));
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -177,13 +171,25 @@ function Post(props: Props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleOpenDialog = async () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   const handleChangeComment = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
   }
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await CommentStore.postComment(comment, Number(props.data.id));
+    await PostStore.postComment(comment, Number(props.data.id));
     setComment('');
+
+  }
+  const handleDelete=async(id:number)=>{
+    setOpenDialog(false)
+    await PostStore.deletePost(id);
+   
 
   }
 
@@ -193,12 +199,12 @@ function Post(props: Props) {
       <Card style={{border: '1px solid rgba(var(--b6a,219,219,219),1)'}}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
+            <Avatar aria-label="recipe" className={classes.avatar} src ={props.data.user.photoURL!=null?(props.data.user.photoURL):(undefined)}>
               {props.data.user.username}
             </Avatar>
           }
           action={
-            <IconButton aria-label="settings">
+            <IconButton aria-label="settings" onClick={handleOpenDialog}>
               <MoreVertIcon />
             </IconButton>
           }
@@ -229,7 +235,7 @@ function Post(props: Props) {
 
         <div className={classes.postFooter}>
           <form onSubmit={handleSubmit}>
-            <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} />
+            <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} type="text" value={comment} />
             <button className={classes.commentButton} type="submit">Post</button>
           </form>
         </div>
@@ -253,7 +259,7 @@ function Post(props: Props) {
           <div style={{ width: '35%' }}>
             <div className={classes.headerComment}>
               <div>
-                <Avatar aria-label="recipe" className={classes.avatar}>
+                <Avatar aria-label="recipe" className={classes.avatar} src ={props.data.photoURL!=null?(props.data.photoURL):(undefined)}>
                   {props.data.user.username}
                 </Avatar>
               </div>
@@ -261,11 +267,10 @@ function Post(props: Props) {
             </div>
             <div className={classes.bodyComment}>
               {props.data.comments.map((data:Comment ) => {
-                console.log(data);
                 return (
                   <div className={classes.commentItem}>
                     <div>
-                      <Avatar aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
+                      <Avatar src={data.user.photoURL!=null?(data.user.photoURL):(undefined)} aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
                         {data.user.username}
                       </Avatar>
                     </div>
@@ -281,13 +286,45 @@ function Post(props: Props) {
             <div className={classes.footerComment}>
               <form onSubmit={handleSubmit}>
                 <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} />
-                <button className={classes.commentButton} type="submit">Post</button>
+                <Button className={classes.commentButton} type="submit">Post</Button>
               </form>
 
             </div>
           </div>
         </div>
       </Modal>
+      <Dialog open={openDialog}
+       onClose={handleCloseDialog}
+       aria-labelledby="simple-dialog-title"
+      > 
+      <DialogTitle id="simple-dialog-title">what do you want ???</DialogTitle>
+       <div className={classes.list}>
+        <List>
+            <Divider />
+            {props.data.user_id===userId?(
+              <>
+                <ListItem button onClick={()=>{handleDelete(props.data.id)}}>
+                  <ListItemText primary="Delete" ></ListItemText>
+                </ListItem>
+                  <Divider />
+                <ListItem button>
+                  <ListItemText primary="Edit" ></ListItemText>
+                </ListItem>
+              </>
+            ):(
+              <>
+              <ListItem button>
+                <ListItemText primary="Follow"></ListItemText>
+              </ListItem>
+              <Divider />
+              </>
+            )}
+            
+            
+          </List>
+       </div>
+
+      </Dialog>
 
     </Box>
 

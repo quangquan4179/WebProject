@@ -1,7 +1,7 @@
 import { pathToFileURL } from "url";
 import { storage } from "../../firebase/firebase";
 import PostStore from "../../stores/PostStore";
-const uploadImage = function (path: any,content: string, userId:number) {
+const uploadImage = function (path: any,content: string) {
   new Promise((resolve, reject) => {
   const uploadTask = storage.ref(`images/${path.name}`).put(path);
   uploadTask.on("state_changed", () => {
@@ -10,7 +10,7 @@ const uploadImage = function (path: any,content: string, userId:number) {
       .child(path.name)
       .getDownloadURL()
       .then((photoURL) => {
-        PostStore.createPost(content,photoURL,userId)
+        PostStore.createPost(content,photoURL)
       })
       .catch((err)=>console.log(err))
   });

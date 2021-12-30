@@ -24,8 +24,8 @@ class PostStore{
         this.setPosts(posts);
     }
     
-    async createPost(content: string, photoURL: any, user_id: number){
-        const res = await createPost(content, photoURL, user_id);
+    async createPost(content: string, photoURL: any){
+        const res = await createPost(content, photoURL);
         const newpost:PostInterface[]=[...this.posts];
         newpost.unshift(res.data);
         this.setPosts(newpost)
@@ -33,10 +33,9 @@ class PostStore{
 
     }
     async postComment(comment: string, post_id: number){
-
         const res = await postComment(post_id,comment);
         const posts:PostInterface[]=[...this.posts];
-        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)==post_id);
+        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
         posts[index].comments.push(res.data);
         this.setPosts(posts);
         
@@ -44,7 +43,7 @@ class PostStore{
     async deletePost(post_id:number){
         await deletePost(post_id);
         const posts: PostInterface[]=[...this.posts]
-        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)==post_id);
+        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
         posts.splice(index,1);
         this.setPosts(posts);
 

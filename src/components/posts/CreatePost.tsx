@@ -35,7 +35,7 @@ export default function CreatePost(props: Props): ReactElement {
         if (file) { 
             const formData = new FormData();
             formData.append("image", file);
-            uploadImage(file,content,Number(userId));
+            uploadImage(file,content);
             setOpen(false);
         }
         
