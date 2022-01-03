@@ -32,6 +32,12 @@ class PostStore{
 
 
     }
+    async realtimePost(data:PostInterface){
+         const posts:PostInterface[]=[...this.posts];
+         posts.unshift(data);
+         this.setPosts(posts);
+
+    }
     async postComment(comment: string, post_id: number){
         const res = await postComment(post_id,comment);
         const posts:PostInterface[]=[...this.posts];

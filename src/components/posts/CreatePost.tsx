@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement,useContext } from 'react'
 import { Box, Card, Avatar, Grid, CardContent, Button, TextField, DialogContent } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,11 +7,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Data, Nullable } from '../../shared/interfaces'
 import { firstChar } from '../../shared/functions/sliceName'
 // import PostStore from '../../stores/PostStore'
+import Pusher from 'pusher-js';
 import uploadImage from '../../shared/functions/uploadImage'
+import {PusherContext} from '../../shared/pusher/Pusher';
 interface Props {
     data?: Nullable<Data>
 }
 export default function CreatePost(props: Props): ReactElement {
+    // Pusher.logToConsole = true;
+    const pusher = useContext(PusherContext)
     const userId = localStorage.getItem('userId');
     const [content, setContent] = React.useState('');
     const [open, setOpen] = React.useState(false);
@@ -37,7 +41,9 @@ export default function CreatePost(props: Props): ReactElement {
             formData.append("image", file);
             uploadImage(file,content);
             setOpen(false);
+            
         }
+
         
        
     }

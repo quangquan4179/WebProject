@@ -12,9 +12,10 @@ const Auth =()=>{
                 {AuthStore.isAuth===false?(
                     <>
                     {/* <Route  element={<RedirectLogin path='/'/>}/> */}
+                    <Route path='/' element={<RedirectLogin component={<Login/>}/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
-                    <Route path='/' element={<RedirectLogin component={<Login/>}/>}/>
+                   
                     </>
                 ):(
                    ''

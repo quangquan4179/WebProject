@@ -266,27 +266,29 @@ function Post(props: Props) {
               <div>{props.data.user.username}</div>
             </div>
             <div className={classes.bodyComment}>
-              {props.data.comments.map((data:Comment ) => {
-                return (
-                  <div className={classes.commentItem}>
-                    <div>
-                      <Avatar src={data.user.photoURL!=null?(data.user.photoURL):(undefined)} aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
-                        {data.user.username}
-                      </Avatar>
-                    </div>
-                    <div>
-                      <span style={{ fontWeight: 500, color: 'black', marginRight: '5px' }}> {data.user.username}</span>
-                      <span>
-                        {data.comment}
-                      </span>
-                    </div>
-                  </div>)
-              })}
+              {props.data.comments?(
+                props.data.comments.map((data:Comment,index:number ) => {
+                  return (
+                    <div className={classes.commentItem} key={index}>
+                      <div>
+                        <Avatar src={data.user.photoURL!=null?(data.user.photoURL):(undefined)} aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
+                          {data.user.username}
+                        </Avatar>
+                      </div>
+                      <div>
+                        <span style={{ fontWeight: 500, color: 'black', marginRight: '5px' }}> {data.user.username}</span>
+                        <span>
+                          {data.comment}
+                        </span>
+                      </div>
+                    </div>)
+                })
+              ):('')}
             </div>
             <div className={classes.footerComment}>
               <form onSubmit={handleSubmit}>
                 <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} />
-                <Button className={classes.commentButton} type="submit">Post</Button>
+                <Button className={classes.commentButton} type="submit">Posts</Button>
               </form>
 
             </div>

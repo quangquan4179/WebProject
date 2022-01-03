@@ -21,8 +21,15 @@ class AuthStore {
       
       this.storeUserId(res.data.user.id)
       this.storeToken(res.data)
+      return res;
+    }else{
+      this.signout();
+      let  data:{}
+      return data={
+        success:false
+      }
     }
-    return res;
+    
   }
   async register(username:string, password:string){
     const res = await AuthService.register(username,password);
@@ -53,8 +60,19 @@ class AuthStore {
     return ''
   }
   loadUser(userID:number){
-    // const accessToken = this.getAccessToken()
-    this.getUser(userID)
+    const accessToken = this.getAccessToken()
+    try{
+      if(accessToken!==''){
+        this.getUser(userID)
+      }else{
+        this.signout();
+      }
+
+    }catch(err){
+      this.signout();
+    }
+    
+    
   }
 }
 export default new AuthStore();
