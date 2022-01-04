@@ -1,7 +1,7 @@
 import { makeObservable, observable } from "mobx";
 import { getAllPost, createPost, deletePost } from "../services/PostService";
 import { postComment } from "../services/CommentService";
-import { PostInterface } from "../shared/interfaces";
+import { PostInterface, Comment } from "../shared/interfaces";
 import { timestamp } from "../shared/functions/convertTime";
 class PostStore{
     posts:PostInterface[]=[];
@@ -36,6 +36,15 @@ class PostStore{
          const posts:PostInterface[]=[...this.posts];
          posts.unshift(data);
          this.setPosts(posts);
+
+    }
+    async realtimeComment(data:Comment ){
+        const post_id = data.post_id;
+        const posts:PostInterface[]=[...this.posts]; 
+        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
+        posts[index].comments.push(data);
+        this.setPosts(posts);
+
 
     }
     async postComment(comment: string, post_id: number){

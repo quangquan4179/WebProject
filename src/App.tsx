@@ -1,4 +1,4 @@
-import { ReactNode, useEffect,useState} from 'react';
+import { ReactNode, useEffect,useState, useLayoutEffect} from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './shared/theme';
 import {
@@ -20,8 +20,6 @@ function App() {
       return <PusherContext.Provider value={pusher}>
             <MyApp route={AppRoute}/>
       </PusherContext.Provider>
-      
-    
     }
     else{
       
@@ -34,7 +32,7 @@ function App() {
       AuthStore.loadUser(Number(userId))
     }
   },[])
-  useEffect(() => {
+  useLayoutEffect(() => {
     setComponent(getCurrentView());
   }, [AuthStore.isAuth]);
   

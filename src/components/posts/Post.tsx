@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { makeStyles, Theme, createStyles, withStyles, WithStyles, } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CloseIcon from '@material-ui/icons/Close';
@@ -18,7 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Box, Dialog, ListItem, Modal, List, Divider, ListItemText,DialogTitle } from '@material-ui/core'
 import { Nullable } from '../../shared/interfaces';
-
+import { PusherContext } from '../../shared/pusher/Pusher';
 import Button from '@material-ui/core/Button';
 // import CommentStore from '../../stores/CommentStore';
 import { observer } from "mobx-react-lite";
@@ -162,6 +162,7 @@ function Post(props: Props) {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [comment, setComment] = React.useState('')
   const userId = Number(localStorage.getItem('userId'));
+  const pusher = useContext(PusherContext)
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -192,6 +193,15 @@ function Post(props: Props) {
    
 
   }
+  useEffect(()=>{
+    var channel = pusher.subscribe("comment-notification");
+    channel.bind("comment", function(res:any) {
+      if(res.success){
+        PostStore.realtimeComment(res.data);
+      }
+      
+    });
+  },[])
 
 
   return (
