@@ -16,7 +16,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Box, Dialog, ListItem, Modal, List, Divider, ListItemText,DialogTitle } from '@material-ui/core'
+import { Box, Dialog, ListItem, Modal, List, Divider, ListItemText, DialogTitle } from '@material-ui/core'
 import { Nullable } from '../../shared/interfaces';
 import { PusherContext } from '../../shared/pusher/Pusher';
 import Button from '@material-ui/core/Button';
@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: 'rgba(var(--d69,0,149,246),1)',
       border: 0,
       backgroundColor: 'transparent',
+      textTransform: 'capitalize',
     },
     postOwnerName: {
       fontWeight: 700,
@@ -117,7 +118,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     bodyComment: {
       height: 'calc(100% - 124px)',
-      position: "relative",
+      position: 'relative',
+      overflowY: 'scroll'
     },
     footerComment: {
       zIndex: 2,
@@ -142,9 +144,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       padding: '14px 16px'
     },
-    list:{
+    list: {
       width: '100%',
-      minwidth:360,
+      minwidth: 360,
       maxWidth: 500,
       backgroundColor: theme.palette.background.paper,
     }
@@ -187,29 +189,29 @@ function Post(props: Props) {
     setComment('');
 
   }
-  const handleDelete=async(id:number)=>{
+  const handleDelete = async (id: number) => {
     setOpenDialog(false)
     await PostStore.deletePost(id);
-   
+
 
   }
-  useEffect(()=>{
+  useEffect(() => {
     var channel = pusher.subscribe("comment-notification");
-    channel.bind("comment", function(res:any) {
-      if(res.success){
+    channel.bind("comment", function (res: any) {
+      if (res.success) {
         PostStore.realtimeComment(res.data);
       }
-      
+
     });
-  },[])
+  }, [])
 
 
   return (
-    <Box sx={{ width: '70%' }} m={1} >
-      <Card style={{border: '1px solid rgba(var(--b6a,219,219,219),1)'}}>
+    <Box m={1} >
+      <Card style={{ border: '1px solid rgba(var(--b6a,219,219,219),1)' }}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar} src ={props.data.user.photoURL!=null?(props.data.user.photoURL):(undefined)}>
+            <Avatar aria-label="recipe" className={classes.avatar} src={props.data.user.photoURL != null ? (props.data.user.photoURL) : (undefined)}>
               {props.data.user.username}
             </Avatar>
           }
@@ -219,7 +221,7 @@ function Post(props: Props) {
             </IconButton>
           }
           title={props.data.user.username}
-          style={{color: 'rgba(var(--f75,38,38,38),1)', fontWeight: 600}}
+          style={{ color: 'rgba(var(--f75,38,38,38),1)', fontWeight: 600 }}
         />
         <CardMedia
           className={classes.media}
@@ -269,36 +271,36 @@ function Post(props: Props) {
           <div style={{ width: '35%' }}>
             <div className={classes.headerComment}>
               <div>
-                <Avatar aria-label="recipe" className={classes.avatar} src ={props.data.photoURL!=null?(props.data.photoURL):(undefined)}>
+                <Avatar aria-label="recipe" className={classes.avatar} src={props.data.photoURL != null ? (props.data.photoURL) : (undefined)}>
                   {props.data.user.username}
                 </Avatar>
               </div>
               <div>{props.data.user.username}</div>
             </div>
             <div className={classes.bodyComment}>
-              {props.data.comments?(
-                props.data.comments.map((data:Comment,index:number ) => {
+              {props.data.comments ? (
+                props.data.comments.map((data: Comment, index: number) => {
                   return (
                     <div className={classes.commentItem} key={index}>
                       <div>
-                        <Avatar src={data.user.photoURL!=null?(data.user.photoURL):(undefined)} aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
+                        <Avatar src={data.user.photoURL != null ? (data.user.photoURL) : (undefined)} aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
                           {data.user.username}
                         </Avatar>
                       </div>
                       <div>
                         <span style={{ fontWeight: 500, color: 'black', marginRight: '5px' }}> {data.user.username}</span>
-                        <span>
+                        <span style={{ wordBreak: 'break-word' }}>
                           {data.comment}
                         </span>
                       </div>
                     </div>)
                 })
-              ):('')}
+              ) : ('')}
             </div>
             <div className={classes.footerComment}>
               <form onSubmit={handleSubmit}>
                 <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} />
-                <Button className={classes.commentButton} type="submit">Posts</Button>
+                <Button className={classes.commentButton} type="submit">Post</Button>
               </form>
 
             </div>
@@ -306,35 +308,35 @@ function Post(props: Props) {
         </div>
       </Modal>
       <Dialog open={openDialog}
-       onClose={handleCloseDialog}
-       aria-labelledby="simple-dialog-title"
-      > 
-      <DialogTitle id="simple-dialog-title">what do you want ???</DialogTitle>
-       <div className={classes.list}>
-        <List>
+        onClose={handleCloseDialog}
+        aria-labelledby="simple-dialog-title"
+      >
+        <DialogTitle id="simple-dialog-title">what do you want ???</DialogTitle>
+        <div className={classes.list}>
+          <List>
             <Divider />
-            {props.data.user_id===userId?(
+            {props.data.user_id === userId ? (
               <>
-                <ListItem button onClick={()=>{handleDelete(props.data.id)}}>
+                <ListItem button onClick={() => { handleDelete(props.data.id) }}>
                   <ListItemText primary="Delete" ></ListItemText>
                 </ListItem>
-                  <Divider />
+                <Divider />
                 <ListItem button>
                   <ListItemText primary="Edit" ></ListItemText>
                 </ListItem>
               </>
-            ):(
+            ) : (
               <>
-              <ListItem button>
-                <ListItemText primary="Follow"></ListItemText>
-              </ListItem>
-              <Divider />
+                <ListItem button>
+                  <ListItemText primary="Follow"></ListItemText>
+                </ListItem>
+                <Divider />
               </>
             )}
-            
-            
+
+
           </List>
-       </div>
+        </div>
 
       </Dialog>
 
