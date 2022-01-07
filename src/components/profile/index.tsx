@@ -9,6 +9,7 @@ import ProfileStore from '../../stores/ProfileStore';
 import AuthStore from '../../shared/authStore/AuthStore';
 import { observer } from 'mobx-react-lite';
 import { PostInterface } from '../../shared/interfaces';
+import { firstChar } from '../../shared/functions/sliceName';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
@@ -101,12 +102,12 @@ const useStyles = makeStyles((theme: Theme) =>
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
-                        }}>A</Avatar>
+                        }}>{firstChar(AuthStore.user.username)}</Avatar>
                     </div>
                     <div className={classes.profileInfo}>
                         <div style={{ display: 'flex', marginBottom: '20px', }}>
                             <div className={classes.profileInfoName}>{AuthStore.user?.username}</div>
-                            <Link to='/#' className={classes.profileInfoEdit}>button edit</Link>
+                            <Link to='/account/edit' className={classes.profileInfoEdit}>button edit</Link>
                         </div>
                         <div style={{ display: 'flex', marginBottom: '20px' }}>
                             <div className={classes.profileInfoFriend}>{ProfileStore.myPosts.length} post</div>

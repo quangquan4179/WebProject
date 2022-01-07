@@ -4,6 +4,7 @@ import {  Modal, Avatar, Button } from '@material-ui/core';
 import {Comment, PostInterface} from '../../shared/interfaces';
 import ProfileStore from '../../stores/ProfileStore';
 import {observer} from'mobx-react-lite';
+import { firstChar } from '../../shared/functions/sliceName';
 interface Props {
     data: PostInterface
 }
@@ -118,7 +119,7 @@ function PostProfile(props: Props): ReactElement {
                         <div className={classes.headerComment}>
                             <div>
                                 <Avatar aria-label="recipe" className={classes.avatar} src={props.data.user.photoURL!=null?(props.data.user.photoURL):(undefined)}>
-                                    {props.data.user.username}
+                                    {firstChar(props.data.user.username)}
                                 </Avatar>
                             </div>
                             <div>Tên</div>
@@ -129,7 +130,7 @@ function PostProfile(props: Props): ReactElement {
                                 <div className={classes.commentItem} key={index}>
                                     <div>
                                         <Avatar src={cmt.user.photoURL!=null?(cmt.user.photoURL):(undefined)} aria-label="recipe" className={classes.avatar} style={{ width: '30px', height: '30px', fontSize: '16px' }}>
-                                            {cmt.user.username}
+                                            {firstChar(cmt.user.username)}
                                         </Avatar>
                                     </div>
                                     <div>

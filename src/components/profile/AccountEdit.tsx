@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-
+import AuthStore from '../../shared/authStore/AuthStore';
+import { firstChar } from '../../shared/functions/sliceName';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -95,10 +96,10 @@ export default function AccountEdit() {
         <div className={classes.root}>
             <div className={classes.changeAvt}>
                 <div className={classes.avatar}>
-                    <Avatar>O</Avatar>
+                    <Avatar src={AuthStore.user.photoURL!==null?(AuthStore.user.photoURL):(undefined)}>{firstChar(AuthStore.user.username)}</Avatar>
                 </div>
                 <div className={classes.nameAndButton}>
-                    <div className={classes.name}>obito_302</div>
+                    <div className={classes.name}>{AuthStore.user.username}</div>
                     <button className={classes.buttonChangeAvt}>Change Profile Photo</button>
                 </div>
             </div>

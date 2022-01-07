@@ -22,13 +22,13 @@ import {observer} from 'mobx-react-lite'
 
   },[])
   return (
-    <Box m={4}>
-      <Grid container direction='row' justifyContent='center' alignItems='center' spacing={3}  >
+    <div>
+      <div>
         { PostStore.posts.map((post,index )=>(
           <Post data={post} key={index}/>
         ))}
-      </Grid>
-    </Box>
+      </div>
+    </div>
   );
 }
 export default observer(PostGrid)
