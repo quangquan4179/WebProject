@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         itemUserInfoAvt: {
             height: '32px',
-            width: '32px'
+            width: '32px',
+            marginRight: '5px'
         },
         itemUserInfoName:{
             width: '150px',
