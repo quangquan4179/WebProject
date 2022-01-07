@@ -25,6 +25,7 @@ import { observer } from "mobx-react-lite";
 import { NONAME } from 'dns';
 import { PostInterface, Comment } from '../../shared/interfaces';
 import PostStore from '../../stores/PostStore';
+import { CommentRounded } from '@material-ui/icons';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -297,8 +298,8 @@ function Post(props: Props) {
             </div>
             <div className={classes.footerComment}>
               <form onSubmit={handleSubmit}>
-                <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} />
-                <Button className={classes.commentButton} type="submit">Posts</Button>
+                <input placeholder="Add a comment . . ." className={classes.commentInput} onChange={handleChangeComment} value={comment}/>
+                <Button className={classes.commentButton} type="submit">Post</Button>
               </form>
 
             </div>

@@ -5,6 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Room from './Room';
 import { Avatar, Button, Chip, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, ListSubheader, TextField, Typography } from "@material-ui/core"
 
 
@@ -137,57 +138,9 @@ export default function ClippedDrawer() {
         <Divider />
       </div>
       <div className={classes.contentRight}>
-
+            
         <div className={classes.chatContainer}>
-          <div className={classes.chatMessageWindow}>
-            <div className={classes.chatHeader}>
-              <Avatar aria-label="recipe" style={{ width: 24, height: 24, marginRight: 20 }}>DL</Avatar>
-              <div style={{ fontWeight: 'bold', fontSize: '16px' }}>Duy Linh</div>
-            </div>
-            <div className={classes.chatMessageWrapper}>
-              <div className={classes.chatMesList}>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div>
-              </div>
-              {/* <div style={{position: 'absolute', float: "left", clear: "both", bottom: "5px" }}>
-                <i>User is typing</i>
-              </div> */}
-            </div>
-            <div className={classes.chatFooter}>
-              <input placeholder="Message . . ." className={classes.chatInput} />
-              <div className={classes.chatButton}>send</div>
-            </div>
-
-          </div>
-
+          <Room/>
         </div>
       </div>
 
