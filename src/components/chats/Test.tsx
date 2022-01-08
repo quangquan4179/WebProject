@@ -167,10 +167,10 @@ function ClippedDrawer() {
 
       <div className={classes.sidebar}>
         <div className={classes.header}>
-          Header
-          <span style={{ marginLeft: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          Tên thằng đang đăng nhập
+          {/* <span style={{ marginLeft: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <AddIcon />
-          </span>
+          </span> */}
         </div>
         <div className={classes.listUser}>
           {ChatStore.user.map((user: User, index) => (
