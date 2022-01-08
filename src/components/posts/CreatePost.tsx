@@ -39,10 +39,12 @@ export default function CreatePost(props: Props): ReactElement {
     const uploadFile = async (e: any) => {
         e.preventDefault();
         if (file) {
+            
             const formData = new FormData();
             formData.append("image", file);
-            uploadImage(file, content);
             setOpen(false);
+            uploadImage(file, content);
+            
 
         }
 
@@ -57,7 +59,7 @@ export default function CreatePost(props: Props): ReactElement {
         <div style={{ width: '100%', marginTop: '80px', display: 'flex', justifyContent: 'center' }}>
             <Card style={{ width: '100%', padding: '20px 40px', display: 'flex', justifyContent: 'center', margin: '8px' }}>
                 <div style={{ width: '10%' }}>
-                    <Avatar aria-label="recipe">{firstChar(props.data?.username)}</Avatar>
+                    <Avatar aria-label="recipe" src={props.data.photoURL}>{firstChar(props.data?.username)}</Avatar>
                 </div>
                 <div style={{ width: '90%' }}>
                     <Box>

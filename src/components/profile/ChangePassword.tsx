@@ -79,10 +79,25 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     }),
 );
-
+interface IData {
+    password: string,
+    passwordConfirm: string,
+    oldPassword:string,
+  }
 export default function ChangePassword() {
     const classes = useStyles();
-
+    const [formData, setFormData] = useState<IData>({
+        password: '',
+        passwordConfirm: '',
+        oldPassword: ''
+      });
+  const { password, passwordConfirm, oldPassword }: {  password: string, passwordConfirm: string , oldPassword:string} = formData;
+      const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
+      const handleSubmit=(e:any)=>{
+        e.preventDefault();
+        AuthStore.resetPassword(password,oldPassword);
+        
+      }
     return (
         <div className={classes.root}>
             <div className={classes.changeAvt}>
@@ -94,29 +109,29 @@ export default function ChangePassword() {
                 </div>
             </div>
             <div className={classes.fromInfo}>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className={classes.form}>
                         <div className={classes.label}>Old Password</div>
                         <div className={classes.inputDiv}>
-                            <input type="text" className={classes.input} />
+                            <input type="password" className={classes.input} name='oldPassword' onChange={handleChange}/>
                         </div>
                     </div>
                     <div className={classes.form}>
                         <div className={classes.label}>New Password</div>
                         <div className={classes.inputDiv}>
-                            <input type="text" className={classes.input} />
+                            <input type="password" className={classes.input} name='password' onChange={handleChange}/>
                         </div>
                     </div>
                     <div className={classes.form}>
                         <div className={classes.label}>Confirm password</div>
                         <div className={classes.inputDiv}>
-                            <input type="text" className={classes.input} />
+                            <input type="password" className={classes.input} name=' passwordConfirm' onChange={handleChange}/>
                         </div>
                     </div>
                     <div className={classes.form}>
                         <div className={classes.label}></div>
                         <div className={classes.inputDiv}>
-                            <button className={classes.submitButton}>Change Password</button>
+                            <button className={classes.submitButton} type='submit'>Change Password</button>
                         </div>
                     </div>
                 </form>
