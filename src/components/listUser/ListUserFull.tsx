@@ -3,6 +3,10 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
 import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom'
+import ListUserStore from '../../stores/ListUserStore';
+import { observer } from 'mobx-react-lite';
+import { User } from '../../shared/interfaces';
+import { firstChar } from '../../shared/functions/sliceName';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -91,8 +95,13 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     }),
 );
-export default function ListUserFull() {
+ function ListUserFull() {
     const [follow, setFollow] = useState();
+    useEffect(()=>{
+        const userId = Number(localStorage.getItem('userId'))
+      
+        ListUserStore.mergeUserNoneFollow(userId);
+    },[])
     const classes = useStyles();
     return (
         <div className={classes.root}>
@@ -101,116 +110,22 @@ export default function ListUserFull() {
                     Suggested
                 </div>
                 <div className={classes.cardUser}>
-                    <div className={classes.itemUser}>
+                    {ListUserStore.usersNoneFollow.map((user:User,index:number)=>(
+                        <div className={classes.itemUser}>
                         <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 1</div>
-                        </div>
-                        <div className={classes.followingBtn}>
-                            Following
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+                            <Avatar className={classes.itemUserInfoAvt} src={user.photoURL!==null?(user.photoURL):(undefined)}>{firstChar(user.username)}</Avatar>
+                            <div className={classes.itemUserInfoName}>{user.username}</div>
                         </div>
                         <div className={classes.followBtn}>
                             Follow
                         </div>
                     </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 3</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 4</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 1</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 2</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 3</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 4</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 1</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 2</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 3</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
-                    <div className={classes.itemUser}>
-                        <div className={classes.itemUserInfo}>
-                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                            <div className={classes.itemUserInfoName}>Tên thằng 4</div>
-                        </div>
-                        <div className={classes.followBtn}>
-                            Follow
-                        </div>
-                    </div>
+                    ))}
+                    
+                    
                 </div>
             </div>
         </div>
     );
 }
+export default observer(ListUserFull)
