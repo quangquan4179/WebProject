@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 // import AppBar from '@material-ui/core/AppBar';
@@ -12,6 +12,7 @@ import { User } from '../../shared/interfaces';
 import { firstChar } from '../../shared/functions/sliceName';
 import ModalChat from './Modal';
 import { observer } from 'mobx-react-lite';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,10 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '80vh',
       border: '1px solid rgba(var(--b6a,219,219,219),1)',
       borderRadius: '4px',
+      backgroundColor: '#fff',
     },
-    av:{
+    av: {
       width: '100%',
-      maxWidth:'36ch'
+      maxWidth: '36ch'
     },
     sidebar: {
       // backgroundColor: 'green',
@@ -37,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       height: '100%',
       position: 'relative',
+      borderLeft: '1px solid #dbdbdb',
     },
     chatContainer: {
       display: "flex",
@@ -64,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '0 20px',
       position: "sticky",
       top: 0,
-      zIndex:2,
+      zIndex: 2,
       backgroundColor: '#fff'
     },
     chatFooter: {
@@ -123,55 +126,79 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '16px',
       width: 'fit-content',
     },
-    header:{
-      backgroundColor: '#fff',
+    header: {
       borderBottom: '1px solid #dbdbdb',
       display: 'flex',
       justifyContent: 'center',
+      height: '60px',
+      alignItems: 'center',
+      fontSize: '16px',
+      lineHeight: '24px',
+      fontWeight: 600,
+    },
+    listUser: {
+      padding: '10px 0',
+    },
+    itemUser: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      padding: '10px 15px',
+      '&:hover': {
+        backgroundColor: '#efefef',
+      }
+    },
+    avatar: {
+      height: '56px',
+      width: '56px',
+      marginRight: '12px',
     }
   }),
 );
 
 function ClippedDrawer() {
-  const [room,setRoom]=useState('s');
+  const [room, setRoom] = useState('s');
   const classes = useStyles();
-  useEffect(()=>{
-     ChatStore.getAlluser();
-  },[])
+  useEffect(() => {
+    ChatStore.getAlluser();
+  }, [])
   return (
     <div className={classes.root}>
 
       <div className={classes.sidebar}>
-      <div className={classes.header}>Header</div>
-        <List>
+        <div className={classes.header}>
+          Header
+          <span style={{ marginLeft: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <AddIcon />
+          </span>
+        </div>
+        <div className={classes.listUser}>
           {ChatStore.user.map((user: User, index) => (
-           <>
-            <ListItem alignItems='flex-start' key={index}>
-              <ListItemAvatar>
-                <Avatar src={user.photoURL!==null?(user.photoURL):(undefined)}>
+            <>
+              <div key={index} className={classes.itemUser}>
+                <Avatar src={user.photoURL !== null ? (user.photoURL) : (undefined)} className={classes.avatar}>
                   {firstChar(user.username)}
                 </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={user.username}>
-              </ListItemText>
+                <div>
+                  {user.username}
+                </div>
 
-            </ListItem>
-            <Divider variant='inset' component='li'/>
-           </>
+              </div>
+            </>
           ))}
-        </List>
+        </div>
       </div>
       <div className={classes.contentRight}>
-            
+
         <div className={classes.chatContainer}>
-          {!room?(
-            <Room/>
-          ):(
-            <ModalChat/>
+          {!room ? (
+            <Room />
+          ) : (
+            <ModalChat />
           )
-        }
-          
-          
+          }
+
+
         </div>
       </div>
 
