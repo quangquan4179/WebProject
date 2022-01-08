@@ -85,13 +85,11 @@ const useStyles = makeStyles((theme: Theme) =>
     }));
  function Profile() {
     const classes = useStyles();
-    
-
      useEffect(() => {
         const userId = localStorage.getItem('userId');
         ProfileStore.getAllMyPosts(Number(userId));
-     
-
+        ProfileStore.getFollow(Number(userId));
+        ProfileStore.getFollowed(Number(userId));
      }, [])
     return (
         <div className={classes.container}>
@@ -112,15 +110,15 @@ const useStyles = makeStyles((theme: Theme) =>
                         </div>
                         <div style={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-between' }}>
                             <div className={classes.profileInfoFriend}>{ProfileStore.myPosts.length} post</div>
-                            <div className={classes.profileInfoFriend}>1 follower</div>
-                            <div className={classes.profileInfoFriend}>1 following</div>
+                            <div className={classes.profileInfoFriend}>{ProfileStore.followed.length} follower</div>
+                            <div className={classes.profileInfoFriend}>{ProfileStore.follow.length} following</div>
                         </div>
                     </div>
                 </div>
                 <div className={classes.profileBody}>
                     <div style={{ display: 'flex', width: 'auto', marginBottom: '20px', justifyContent: 'center', padding: '20px', borderTop: '1px solid' }}>
                         <GridOnIcon />
-                        <span style={{ marginLeft: '5px' }}>POSTS</span>
+                        <span style={{ marginLeft: '5px' }}>POST</span>
                     </div>
                     <div className={classes.listPost}>
                        {ProfileStore.myPosts.map((post:PostInterface,index:number)=>{
