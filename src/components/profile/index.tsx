@@ -38,15 +38,16 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: '30px',
         },
         profileInfo: {
-            width: '67%',
+            width: '30%',
             display: 'block',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
         },
         profileInfoName: {
             display: 'flex',
-            overflow: 'hidden',
+            width: '50%',
             textOverflow: 'ellipsis',
+            overflow: 'hidden',
             whiteSpace: 'nowrap',
             fontWeight: 300,
             fontSize: '28px',
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         profileInfoFriend: {
             fontSize: '16px',
-            marginRight: '40px'
+            // marginRight: '40px'
         },
         listPost: {
             display: 'grid',
@@ -105,11 +106,11 @@ const useStyles = makeStyles((theme: Theme) =>
                         }}>{firstChar(AuthStore.user.username)}</Avatar>
                     </div>
                     <div className={classes.profileInfo}>
-                        <div style={{ display: 'flex', marginBottom: '20px', }}>
+                        <div style={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-between' }}>
                             <div className={classes.profileInfoName}>{AuthStore.user?.username}</div>
                             <Link to='/account/edit' className={classes.profileInfoEdit}>button edit</Link>
                         </div>
-                        <div style={{ display: 'flex', marginBottom: '20px' }}>
+                        <div style={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-between' }}>
                             <div className={classes.profileInfoFriend}>{ProfileStore.myPosts.length} post</div>
                             <div className={classes.profileInfoFriend}>1 follower</div>
                             <div className={classes.profileInfoFriend}>1 following</div>

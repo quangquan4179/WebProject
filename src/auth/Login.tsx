@@ -107,11 +107,11 @@ function Login() {
               />
               <Box sx={{ py: 2 }}>
                 <Button
-                  color='secondary'
                   fullWidth
                   size='large'
                   type='submit'
                   variant='contained'
+                  style={{backgroundColor: 'black', color: 'white'}}
                 >
                   Đăng nhập
                 </Button>

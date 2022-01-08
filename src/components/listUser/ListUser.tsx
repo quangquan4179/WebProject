@@ -67,7 +67,7 @@ export default function ListUser() {
                 <div>
                     Suggestions For You
                 </div>
-                <Link to='/' className={classes.headerRowLink}>
+                <Link to='/explore/people' className={classes.headerRowLink}>
                     See All
                 </Link>
             </div>
