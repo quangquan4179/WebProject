@@ -147,7 +147,7 @@ const Register: React.FC<{}> = () => {
               />
               <Box sx={{ py: 2 }}>
                 <Button
-                  color='secondary'
+                   style={{backgroundColor: 'black', color: 'white'}}
                   fullWidth
                   size='large'
                   type='submit'

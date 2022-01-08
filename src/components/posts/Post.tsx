@@ -228,7 +228,7 @@ function Post(props: Props) {
 
   return (
     <Box m={1} >
-      <Card style={{ border: '1px solid rgba(var(--b6a,219,219,219),1)' }}>
+      <Card style={{ border: '1px solid rgba(var(--b6a,219,219,219),1)', boxShadow: 'none' }}>
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar} src={props.data.user.photoURL != null ? (props.data.user.photoURL) : (undefined)}>

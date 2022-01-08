@@ -40,11 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     search: {
       position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: alpha(theme.palette.common.white, 0.15),
-      '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-      },
+      // backgroundColor: alpha(theme.palette.common.white, 0.15),
+      // '&:hover': {
+      //   backgroundColor: alpha(theme.palette.common.white, 0.25),
+      // },
       marginRight: theme.spacing(2),
       marginLeft: 0,
       width: '100%',
@@ -53,8 +52,10 @@ const useStyles = makeStyles((theme: Theme) =>
         width: 'auto',
       },
       minWidth: '125px',
-      border: '1px solid gray',
-      opacity: 0.4,
+      border: '0',
+      backgroundColor: '#efefef',
+      borderRadius: '8px',
+      color: '#8e8e8e',
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -96,7 +97,9 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#fff',
       color: '#000',
       padding: '0 15%',
-      zIndex: 10
+      zIndex: 10,
+      boxShadow: 'none',
+      borderBottom: '1px solid #dbdbdb',
     },
     buttonCustom: {
       "&:hover": {

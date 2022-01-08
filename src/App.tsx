@@ -38,7 +38,7 @@ function App() {
   
   return (
     <ThemeProvider theme={theme}>
-      <div className="container">
+      <div className="container" style={{backgroundColor : '#fafafa'}}>
         <Router>
           {component}
         </Router>

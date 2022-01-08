@@ -11,7 +11,7 @@ import ChatStore from '../../stores/ChatStore';
 import { User } from '../../shared/interfaces';
 import { firstChar } from '../../shared/functions/sliceName';
 import ModalChat from './Modal';
-const drawerWidth = 240;
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '65%',
       height: '80vh',
       border: '1px solid rgba(var(--b6a,219,219,219),1)',
-      borderRadius: '5px',
+      borderRadius: '4px',
     },
     av:{
       width: '100%',
@@ -29,10 +29,11 @@ const useStyles = makeStyles((theme: Theme) =>
     sidebar: {
       // backgroundColor: 'green',
       // height: '100%',
-      width: drawerWidth * 2
+      width: '40%',
     },
     contentRight: {
       // height: '80vh',
+      width: '60%',
       flexGrow: 1,
       height: '100%',
       position: 'relative',
@@ -121,11 +122,17 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: '5px',
       padding: '16px',
       width: 'fit-content',
+    },
+    header:{
+      backgroundColor: '#fff',
+      borderBottom: '1px solid #dbdbdb',
+      display: 'flex',
+      justifyContent: 'center',
     }
   }),
 );
 
-export default function ClippedDrawer() {
+function ClippedDrawer() {
   const [room,setRoom]=useState('s');
   const classes = useStyles();
   useEffect(()=>{
@@ -135,7 +142,7 @@ export default function ClippedDrawer() {
     <div className={classes.root}>
 
       <div className={classes.sidebar}>
-
+      <div className={classes.header}>Header</div>
         <List>
           {ChatStore.user.map((user: User, index) => (
            <>
@@ -157,7 +164,7 @@ export default function ClippedDrawer() {
       <div className={classes.contentRight}>
             
         <div className={classes.chatContainer}>
-          {room?(
+          {!room?(
             <Room/>
           ):(
             <ModalChat/>
@@ -171,3 +178,4 @@ export default function ClippedDrawer() {
     </div>
   );
 }
+export default observer(ClippedDrawer)

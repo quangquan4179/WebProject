@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
             whiteSpace: 'nowrap',
         },
         fromInfo: {
-            marginTop: '10px',
+            marginTop: '32px',
         },
         form: {
             display: 'flex',
@@ -60,10 +60,12 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '16px',
             fontWeight: 600,
             lineHeight: '18px',
+            marginBottom: '16px',
         },
         inputDiv: {
             width: '80%',
             paddingRight: '60px',
+            marginBottom: '16px',
         },
         input: {
             width: '90%',
@@ -73,6 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '16px',
             height: '32px',
             padding: '0 10px',
+            background: '#fafafa',
         },
         submitButton: {
             borderRadius: '4px',

@@ -57,7 +57,7 @@ export default function CreatePost(props: Props): ReactElement {
 
     return (
         <div style={{ width: '100%', marginTop: '80px', display: 'flex', justifyContent: 'center' }}>
-            <Card style={{ width: '100%', padding: '20px 40px', display: 'flex', justifyContent: 'center', margin: '8px' }}>
+            <Card style={{ width: '100%', padding: '20px 40px', display: 'flex', justifyContent: 'center', margin: '8px', boxShadow: 'none', border: '1px solid #dbdbdb', borderRadius: '3px', }}>
                 <div style={{ width: '10%' }}>
                     <Avatar aria-label="recipe" src={props.data.photoURL}>{firstChar(props.data?.username)}</Avatar>
                 </div>
