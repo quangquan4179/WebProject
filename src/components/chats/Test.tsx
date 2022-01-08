@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 // import AppBar from '@material-ui/core/AppBar';
@@ -6,9 +6,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Room from './Room';
-import { Avatar, Button, Chip, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, ListSubheader, TextField, Typography } from "@material-ui/core"
-
-
+import { Avatar, Button, Chip, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, ListSubheader, TextField, Typography } from "@material-ui/core"
+import ChatStore from '../../stores/ChatStore';
+import { User } from '../../shared/interfaces';
+import { firstChar } from '../../shared/functions/sliceName';
+import ModalChat from './Modal';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -20,8 +22,12 @@ const useStyles = makeStyles((theme: Theme) =>
       border: '1px solid rgba(var(--b6a,219,219,219),1)',
       borderRadius: '5px',
     },
+    av:{
+      width: '100%',
+      maxWidth:'36ch'
+    },
     sidebar: {
-      backgroundColor: 'green',
+      // backgroundColor: 'green',
       // height: '100%',
       width: drawerWidth * 2
     },
@@ -120,27 +126,45 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function ClippedDrawer() {
+  const [room,setRoom]=useState('s');
   const classes = useStyles();
-
+  useEffect(()=>{
+     ChatStore.getAlluser();
+  },[])
   return (
     <div className={classes.root}>
 
       <div className={classes.sidebar}>
 
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {ChatStore.user.map((user: User, index) => (
+           <>
+            <ListItem alignItems='flex-start' key={index}>
+              <ListItemAvatar>
+                <Avatar src={user.photoURL!==null?(user.photoURL):(undefined)}>
+                  {firstChar(user.username)}
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={user.username}>
+              </ListItemText>
+
             </ListItem>
+            <Divider variant='inset' component='li'/>
+           </>
           ))}
         </List>
-        <Divider />
       </div>
       <div className={classes.contentRight}>
             
         <div className={classes.chatContainer}>
-          <Room/>
+          {room?(
+            <Room/>
+          ):(
+            <ModalChat/>
+          )
+        }
+          
+          
         </div>
       </div>
 

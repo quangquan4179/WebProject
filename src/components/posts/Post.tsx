@@ -209,6 +209,20 @@ function Post(props: Props) {
       }
 
     });
+
+    var like = pusher.subscribe("like-notification");
+    like.bind('like', function(res: any){
+      if(res.success){
+        PostStore.realtimeLike(res.data)
+      }
+    })
+    var dislike = pusher.subscribe("dislike-notification");
+    dislike.bind('dislike', function(res: any){
+      if(res.success){
+        PostStore.realtimeDislike(res.data)
+      }
+    })
+
   }, [])
 
 

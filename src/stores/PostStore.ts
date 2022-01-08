@@ -52,19 +52,39 @@ class PostStore{
 
 
     }
+    async realtimeLike(data:Like ){
+        const post_id = data.post_id;
+        const posts:PostInterface[]=[...this.posts]; 
+        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
+        const indexComment=posts[index].likes.findIndex((like:Like)=>data.id===like.id);
+        if(indexComment===-1){
+            posts[index].likes.push(data);
+        }
+        this.setPosts(posts);
+    }
+    async realtimeDislike(data:Like ){
+        const post_id = data.post_id;
+        const posts:PostInterface[]=[...this.posts]; 
+        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
+        const indexComment=posts[index].likes.findIndex((like:Like)=>data.id===like.id);
+        if(indexComment===-1){
+            posts[index].likes.slice(indexComment,1);
+        }
+        this.setPosts(posts);
+    }
     async postComment(comment: string, post_id: number){
         const res = await postComment(post_id,comment);
         const posts:PostInterface[]=[...this.posts];
-        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
-        posts[index].comments.push(res.data);
+        // const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
+        // posts[index].comments.push(res.data);
         this.setPosts(posts);
         
     }
     async postLike(post_id:number){
         const res = await postLike(post_id);
         const posts:PostInterface[]=[...this.posts];
-        const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
-        posts[index].likes.push(res.data);
+        // const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
+        // posts[index].likes.push(res.data);
         this.setPosts(posts);
         
 
