@@ -1,17 +1,28 @@
 import { makeObservable, observable } from "mobx";
 import { postComment } from "../services/CommentService";
+import { getFollow, getFollowed } from "../services/FollowService";
 import { getPostByUserId } from "../services/PostService";
-import { PostInterface } from "../shared/interfaces";
+import { PostInterface, User } from "../shared/interfaces";
 class ProfileStore{
+    follow: User[]=[];
+    followed: User[]=[];
     myPosts:PostInterface[]=[];
     constructor(){
         makeObservable(this,{
-            myPosts:observable
+            myPosts:observable,
+            follow:observable,
+            followed:observable
         })
     }
 
     setMypost(arr:PostInterface[]){
         this.myPosts=arr
+    }
+    setFollow(arr: User[]){
+        this.follow=arr
+    }    
+    setFollowed(arr: User[]){
+        this.followed=arr
     }
 
     async getAllMyPosts(user_id:number){
@@ -27,6 +38,18 @@ class ProfileStore{
         posts[index].comments.push(res.data);
         this.setMypost(posts);
         
+    }
+    async getFollow(userId:number){
+        const res = await getFollow(userId);
+        if(res.success){
+            this.setFollow(res.data);
+        }
+    }
+    async getFollowed(userId:number){
+        const res = await getFollowed(userId)
+        if(res.success){
+            this.setFollowed(res.data);
+        }
     }
 
     

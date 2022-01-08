@@ -3,6 +3,9 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from '@material-ui/core/Button';
 import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom'
+import { observer } from 'mobx-react-lite';
+import ListUserStore from '../../stores/ListUserStore';
+import { User } from '../../shared/interfaces';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -59,8 +62,13 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     }),
 );
-export default function ListUser() {
+ function ListUser() {
     const classes = useStyles();
+    useEffect(()=>{
+        const userId = Number(localStorage.getItem('userId'))
+        // ListUserStore.getAlluser();
+        ListUserStore.mergeUserNoneFollow(userId);
+    },[])
     return (
         <div className={classes.root}>
             <div className={classes.headerRow}>
@@ -71,24 +79,85 @@ export default function ListUser() {
                     See All
                 </Link>
             </div>
-            <div className={classes.itemUser}>
+            {ListUserStore.usersNoneFollow.length===1?(
+                <div className={classes.itemUser}>
                 <div className={classes.itemUserInfo}>
                     <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                    <div className={classes.itemUserInfoName}>Tên thằng 1 thằng 1 thằng 1</div>
+                    <div className={classes.itemUserInfoName}>{ListUserStore.usersNoneFollow[0].username}</div>
                 </div>
                 <Button className={classes.followBtn}>
                     Follow
                 </Button>
             </div>
-            <div className={classes.itemUser}>
-                <div className={classes.itemUserInfo}>
-                    <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
-                    <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+            ):(
+                ListUserStore.usersFollowed.length<5?(
+                    ListUserStore.usersNoneFollow.map((user:User,index)=>(
+                        <div className={classes.itemUser} key={index}>
+                        <div className={classes.itemUserInfo}>
+                            <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
+                            <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+                        </div>
+                        <Button className={classes.followBtn}>
+                            Follow
+                        </Button>
+                    </div>
+                    
+                        ))
+                ):(
+                    <>
+                    <div className={classes.itemUser} >
+                    <div className={classes.itemUserInfo}>
+                        <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
+                        <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+                    </div>
+                    <Button className={classes.followBtn}>
+                        Follow
+                    </Button>
                 </div>
-                <Button className={classes.followBtn}>
-                    Follow
-                </Button>
-            </div>
+                <div className={classes.itemUser} >
+                    <div className={classes.itemUserInfo}>
+                        <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
+                        <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+                    </div>
+                    <Button className={classes.followBtn}>
+                        Follow
+                    </Button>
+                </div>
+                <div className={classes.itemUser} >
+                    <div className={classes.itemUserInfo}>
+                        <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
+                        <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+                    </div>
+                    <Button className={classes.followBtn}>
+                        Follow
+                    </Button>
+                </div>
+                <div className={classes.itemUser} >
+                    <div className={classes.itemUserInfo}>
+                        <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
+                        <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+                    </div>
+                    <Button className={classes.followBtn}>
+                        Follow
+                    </Button>
+                </div>
+                <div className={classes.itemUser} >
+                    <div className={classes.itemUserInfo}>
+                        <Avatar className={classes.itemUserInfoAvt}>O</Avatar>
+                        <div className={classes.itemUserInfoName}>Tên thằng 2</div>
+                    </div>
+                    <Button className={classes.followBtn}>
+                        Follow
+                    </Button>
+                </div>
+                    
+                    </>
+                    
+                )
+               
+            )}
+            
         </div>
     );
 }
+export default observer(ListUser)
