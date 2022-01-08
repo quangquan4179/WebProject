@@ -1,6 +1,9 @@
 import { makeObservable, observable } from "mobx";
 import AuthService from "./../../services/AuthService";
 import { User,Nullable } from "../interfaces";
+import uploadAvatar from "../functions/uploadAvatar";
+import { postAvatar } from "../../services/UsersService";
+import { changePassword } from "../../services/EditService";
 class AuthStore {
   isAuth = false;
   user:Nullable<User>=null;
@@ -71,8 +74,20 @@ class AuthStore {
     }catch(err){
       this.signout();
     }
+
+  
     
     
+  }
+  async uploadAvatar( photoURL: any,userId: number){
+    const res = await postAvatar(photoURL,userId);
+    if(res.success){
+      this.setUser(res.data,true);
+    }
+
+  }
+  async resetPassword (newPassword:string, oldPassword:string){
+    const res = await changePassword(newPassword,oldPassword);
   }
 }
 export default new AuthStore();

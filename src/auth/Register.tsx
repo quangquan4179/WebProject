@@ -67,9 +67,6 @@ const Register: React.FC<{}> = () => {
           })
 
         }
-
-
-
       }
     }
     else {
@@ -84,7 +81,6 @@ const Register: React.FC<{}> = () => {
       })
 
     }
-
   };
   return (
     <React.Fragment>

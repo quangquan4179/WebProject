@@ -3,6 +3,8 @@ import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@materi
 import Avatar from '@material-ui/core/Avatar';
 import AuthStore from '../../shared/authStore/AuthStore';
 import { firstChar } from '../../shared/functions/sliceName';
+import { Dialog,DialogTitle, List , Divider, ListItemText,ListItem} from '@material-ui/core';
+import uploadAvatar from '../../shared/functions/uploadAvatar';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -94,7 +96,34 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function AccountEdit() {
     const classes = useStyles();
+    const [open,setOpen]=useState(false);
+    const [file, setFile] = React.useState<File>()
+    const userId = Number(localStorage.getItem('userId'));
+    const handleOpen =()=>{
+        setOpen(true);
+    }
+    const handleClose =()=>{
+        setOpen(false);
+    }
+    const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const fileList = event.target.files;
 
+        if (!fileList) return;
+        setFile(fileList[0]);
+    }
+    const uploadFile = async (e: any) => {
+        e.preventDefault();
+        if (file) {
+            const formData = new FormData();
+            formData.append("image", file);
+            uploadAvatar(file,userId);
+            setOpen(false);
+
+        }
+
+
+
+    }
     return (
         <div className={classes.root}>
             <div className={classes.changeAvt}>
@@ -103,7 +132,7 @@ export default function AccountEdit() {
                 </div>
                 <div className={classes.nameAndButton}>
                     <div className={classes.name}>{AuthStore.user.username}</div>
-                    <button className={classes.buttonChangeAvt}>Change Profile Photo</button>
+                    <button className={classes.buttonChangeAvt} onClick={handleOpen}>Change Profile Photo</button>
                 </div>
             </div>
             <div className={classes.fromInfo}>
@@ -128,6 +157,27 @@ export default function AccountEdit() {
                     </div>
                 </form>
             </div>
+            <Dialog open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-dialog-title"
+      >
+        <DialogTitle id="simple-dialog-title">Change Profile Photo</DialogTitle>
+        <div >
+          <List>
+            <Divider />
+            
+              <form onSubmit={uploadFile}>
+              {file ? (<div style={{marginTop: '10px'}}>
+                        <img alt="not fount" width={"550px"} src={URL.createObjectURL(file)} />
+                                                <br />
+                        </div>) : ('')}
+                   <input type='file'  id="input-file"  onChange={handleChangeFile}></input>
+                   <button type='submit'>Upload</button>
+              </form>
+          </List>
+        </div>
+
+      </Dialog>
         </div>
     );
 }

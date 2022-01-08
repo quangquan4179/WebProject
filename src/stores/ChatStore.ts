@@ -12,9 +12,6 @@ class ChatStore{
      setUser(arr:User[]){
          this.user=arr
      }
-
-
-
     async getAlluser(){
         const res=await getAllUser();
         if(res.success){
