@@ -1,7 +1,7 @@
 import { makeObservable, observable } from "mobx";
 import { User } from "../shared/interfaces";
 import { getAllUser } from "../services/UsersService";
-import { getFollow, getFollowed } from "../services/FollowService";
+import { getFollow, getFollowed, postFollow } from "../services/FollowService";
 
 
 class ListUserStore{
@@ -33,8 +33,29 @@ class ListUserStore{
             this.setUsers(res.data)
             console.log(res.data)
         }
+        
        
     }
+
+    async activeUsers(userId:number) {
+        const res=await getAllUser();
+        let allUsers:User[]=[];
+        if(res.success){
+            allUsers=res.data;
+           
+         }
+         let  index = allUsers.findIndex((a:User)=>userId===a.id);
+        if(index!==-1){
+            allUsers.splice(index,1);
+            // console.log(allUsers);
+        } 
+        this.setUsers(res.data)
+     
+    }
+   async postFollow(userId:number){
+       await postFollow(userId);
+       
+   }
     async getFollowed(userId:number){
         const res = await getFollowed(userId)
         if(res.success){
@@ -45,6 +66,7 @@ class ListUserStore{
     async mergeUserNoneFollow(userId:number){
         const res1=await getAllUser();
         let allUsers:User[]=[];
+
         let userFollowed:User[]=[];
         if(res1.success){
            allUsers=res1.data;
@@ -55,8 +77,7 @@ class ListUserStore{
             allUsers.splice(index,1);
             // console.log(allUsers);
         } 
-        const res2 = await getFollowed(userId)
-         
+        const res2 = await getFollow(userId)
         if(res2.success){
             userFollowed=res2.data;
            
@@ -70,8 +91,8 @@ class ListUserStore{
                     allUsers.splice(index,1);
                 }    
             }
-            
             this.setUserNoneFollow(allUsers);
+            
             
         }
 

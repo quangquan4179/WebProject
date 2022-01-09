@@ -5,14 +5,16 @@ import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Room from './Room';
+import RoomCpn from './Room';
 import { Avatar, Button, Chip, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, ListSubheader, TextField, Typography } from "@material-ui/core"
 import ChatStore from '../../stores/ChatStore';
-import { User } from '../../shared/interfaces';
+import { Room, User } from '../../shared/interfaces';
 import { firstChar } from '../../shared/functions/sliceName';
 import ModalChat from './Modal';
 import { observer } from 'mobx-react-lite';
 import AddIcon from '@material-ui/icons/Add';
+import AuthStore from '../../shared/authStore/AuthStore';
+import MessagesStore from '../../stores/MessagesStore';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -157,32 +159,32 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function ClippedDrawer() {
-  const [room, setRoom] = useState('s');
+  const [room, setRoom] = useState<Room>();
   const classes = useStyles();
   useEffect(() => {
+    const userId=Number(localStorage.getItem('userId'))
     ChatStore.getAlluser();
+    ChatStore.getAllRooms(userId);
   }, [])
+  const handleClick=(room:Room)=>{
+    setRoom(room)
+    MessagesStore.getAllMes(room.id)
+  }
   return (
     <div className={classes.root}>
 
       <div className={classes.sidebar}>
         <div className={classes.header}>
-          Tên thằng đang đăng nhập
+          {AuthStore.user.username}
           {/* <span style={{ marginLeft: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <AddIcon />
           </span> */}
         </div>
         <div className={classes.listUser}>
-          {ChatStore.user.map((user: User, index) => (
+          {ChatStore.rooms.map((room, index) => (
             <>
-              <div key={index} className={classes.itemUser}>
-                <Avatar src={user.photoURL !== null ? (user.photoURL) : (undefined)} className={classes.avatar}>
-                  {firstChar(user.username)}
-                </Avatar>
-                <div>
-                  {user.username}
-                </div>
-
+              <div key={index} className={classes.itemUser} onClick={()=>handleClick(room)}>
+                {room.name}
               </div>
             </>
           ))}
@@ -191,10 +193,10 @@ function ClippedDrawer() {
       <div className={classes.contentRight}>
 
         <div className={classes.chatContainer}>
-          {!room ? (
-            <Room />
+          {room ? (
+            <RoomCpn data={room}/>
           ) : (
-            <ModalChat />
+            <ModalChat data={ChatStore.user} />
           )
           }
 

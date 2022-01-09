@@ -102,6 +102,10 @@ const useStyles = makeStyles((theme: Theme) =>
       
         ListUserStore.mergeUserNoneFollow(userId);
     },[])
+
+    const handleClick=(userId:number)=>{
+        ListUserStore.postFollow(userId);
+    }
     const classes = useStyles();
     return (
         <div className={classes.root}>
@@ -116,7 +120,7 @@ const useStyles = makeStyles((theme: Theme) =>
                             <Avatar className={classes.itemUserInfoAvt} src={user.photoURL!==null?(user.photoURL):(undefined)}>{firstChar(user.username)}</Avatar>
                             <div className={classes.itemUserInfoName}>{user.username}</div>
                         </div>
-                        <div className={classes.followBtn}>
+                        <div className={classes.followBtn} onClick={()=>handleClick(user.id)}>
                             Follow
                         </div>
                     </div>

@@ -1,6 +1,10 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState, useEffect } from 'react'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { Avatar} from '@material-ui/core'
+import { Avatar, Button} from '@material-ui/core'
+import { Messages, Room } from '../../shared/interfaces';
+import { firstChar } from '../../shared/functions/sliceName';
+import MessagesStore from '../../stores/MessagesStore';
+import { observer } from 'mobx-react-lite';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     chatMessageWindow: {
@@ -85,20 +89,50 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 interface Props {
+  data:Room
     
 }
 
-function Room({}: Props): ReactElement {
+function RoomCpn(props: Props): ReactElement {
+  const [messages,setMessages]=useState('');
+  useEffect(()=>{
+    MessagesStore.getAllMes(props.data.id)
+    console.log(MessagesStore.messages)
+  },[])
+  const userId=Number(localStorage.getItem('userId'))
+ 
+
+  const handleChange =(e:any)=>(
+    setMessages(e.target.value)
+  )
+  const handleSubmit=(e:any)=>{
+    e.preventDefault();
+    MessagesStore.postMes(messages,props.data.id);
+  }
     const classes = useStyles();
     return (
         <div className={classes.chatMessageWindow}>
             <div className={classes.chatHeader}>
-              <Avatar aria-label="recipe" style={{ width: 24, height: 24, marginRight: 20 }}>DL</Avatar>
-              <div style={{ fontWeight: 'bold', fontSize: '16px' }}>Duy Linh</div>
+              <Avatar aria-label="recipe" style={{ width: 24, height: 24, marginRight: 20 }}>{firstChar(props.data?.name)}</Avatar>
+              <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.data?.name}</div>
             </div>
             <div className={classes.chatMessageWrapper}>
               <div className={classes.chatMesList}>
-                <div className={classes.chatMesItemLeft}>
+
+                {MessagesStore.messages.map((messages:Messages,index:number)=>
+                  messages.user_id===userId?(
+                    <div className={classes.chatMesItemRight}>
+                    {messages.message}
+                  </div>
+                  ):(
+                    <div className={classes.chatMesItemLeft}>
+                   {messages.message}
+                </div>
+                  )
+                )
+                }
+    
+                {/* <div className={classes.chatMesItemLeft}>
                   trái
                 </div>
                 <div className={classes.chatMesItemLeft}>
@@ -127,18 +161,21 @@ function Room({}: Props): ReactElement {
                 </div>
                 <div className={classes.chatMesItemRight}>
                   phải
-                </div>
+                </div> */}
               </div>
               {/* <div style={{position: 'absolute', float: "left", clear: "both", bottom: "5px" }}>
                 <i>User is typing</i>
               </div> */}
             </div>
             <div className={classes.chatFooter}>
-              <input placeholder="Message . . ." className={classes.chatInput} />
-              <div className={classes.chatButton}>send</div>
+              <form onSubmit={handleSubmit}>
+                <input placeholder="Message . . ." className={classes.chatInput}  value={messages} onChange={handleChange}/>
+                <Button className={classes.chatButton} type="submit">send</Button>
+              </form>
+             
             </div>
 
           </div>
     )
 }
-export default Room
+export default observer(RoomCpn);

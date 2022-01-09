@@ -26,7 +26,7 @@ export interface Comment{
 export interface User {
     id: number,
     photoURL?:string|null;
-    username?:string;
+    username:string;
 }
 export interface Like{
     created_at: string,
@@ -35,4 +35,21 @@ export interface Like{
     updated_at: string,
     user: User,
     user_id: number,
+}
+export interface Room{
+    created_at: string,
+    id: number,
+    name:string
+    updated_at: string,
+    pivot: User[]
+}
+export interface Messages{
+    created_at: string,
+    room_id: number,
+    message: string;
+    updated_at: string,
+    user: User,
+    user_id:number,
+    id: number,
+    room:Room
 }
