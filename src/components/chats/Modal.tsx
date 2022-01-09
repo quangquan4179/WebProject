@@ -111,20 +111,15 @@ export default function ModalChat(props: ModelProps): ReactElement {
   };
   const handleClick=()=>{
     if(name.length!=0){
-      console.log(name);
+      setOpen(false);
       const roomName =name.map((user:User)=>(user.username));
       const result = roomName.join('')
       const userIdarr= name.map((user:User)=>(user.id));
-      console.log(result);
-      console.log(userIdarr);
       ChatStore.postRoom(result,result,userIdarr);
 
     }
   }
-  // const handleDelete=(str:string)=>{
-  //   setName([])
-
-  // }
+ 
   return (
 
     <div className={classes.chatMessageWindow}>
@@ -164,7 +159,6 @@ export default function ModalChat(props: ModelProps): ReactElement {
               />
             </div>
           </div>
-          {/* <div></div> */}
         </div>
       </Modal>
     </div>

@@ -23,7 +23,20 @@ class ChatStore{
         if(res.success){
             this.setUser(res.data)
         }
-        console.log(res);
+        
+       
+    }
+    async getAlluserWithoutMe(userId:number){
+        const res=await getAllUser();
+        if(res.success){
+            const newUsers:User[]=[...res.data];
+            let  index = newUsers.findIndex((a:User)=>userId===a.id);
+            if(index!==-1){
+                newUsers.splice(index,1);
+            }
+            this.setUser(newUsers);
+        }
+        
        
     }
     async postRoom(name:string, description:string, users:number[]){

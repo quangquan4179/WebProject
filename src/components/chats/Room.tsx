@@ -108,6 +108,7 @@ function RoomCpn(props: Props): ReactElement {
   const handleSubmit=(e:any)=>{
     e.preventDefault();
     MessagesStore.postMes(messages,props.data.id);
+    setMessages('');
   }
     const classes = useStyles();
     return (
@@ -131,46 +132,13 @@ function RoomCpn(props: Props): ReactElement {
                   )
                 )
                 }
-    
-                {/* <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div>
-                <div className={classes.chatMesItemLeft}>
-                  trái
-                </div>
-                <div className={classes.chatMesItemRight}>
-                  phải
-                </div> */}
               </div>
-              {/* <div style={{position: 'absolute', float: "left", clear: "both", bottom: "5px" }}>
-                <i>User is typing</i>
-              </div> */}
+              
             </div>
             <div className={classes.chatFooter}>
               <form onSubmit={handleSubmit}>
                 <input placeholder="Message . . ." className={classes.chatInput}  value={messages} onChange={handleChange}/>
-                <Button className={classes.chatButton} type="submit">send</Button>
+                <Button className={classes.chatButton} type="submit">Send</Button>
               </form>
              
             </div>

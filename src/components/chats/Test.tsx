@@ -163,7 +163,7 @@ function ClippedDrawer() {
   const classes = useStyles();
   useEffect(() => {
     const userId=Number(localStorage.getItem('userId'))
-    ChatStore.getAlluser();
+    ChatStore.getAlluserWithoutMe(userId);
     ChatStore.getAllRooms(userId);
   }, [])
   const handleClick=(room:Room)=>{
