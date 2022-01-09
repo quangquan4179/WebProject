@@ -23,9 +23,10 @@ function Login() {
   });
   const { username, password }: { username: string, password: string } = formData;
   const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
+ const [load,setLoad]=useState(false);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoad(true);
     const res = await AuthStore.login(username, password);
     console.log(res)
     if (res.success === false) {
@@ -50,6 +51,7 @@ function Login() {
       })
       navigate('/');
     }
+    setLoad(false)
 
   };
   return (
@@ -106,7 +108,9 @@ function Login() {
                 onChange={handleChange}
               />
               <Box sx={{ py: 2 }}>
-                <Button
+                {load?(
+                  <Button
+                  disabled
                   fullWidth
                   size='large'
                   type='submit'
@@ -115,6 +119,17 @@ function Login() {
                 >
                   Đăng nhập
                 </Button>
+                ):(
+                  <Button
+                  fullWidth
+                  size='large'
+                  type='submit'
+                  variant='contained'
+                  style={{backgroundColor: 'black', color: 'white'}}
+                >
+                  Đăng nhập
+                </Button>
+                )}
               </Box>
 
             </form>

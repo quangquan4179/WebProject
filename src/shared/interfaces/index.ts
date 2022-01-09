@@ -42,6 +42,7 @@ export interface Room{
     name:string
     updated_at: string,
     pivot: User[]
+    messages:Messages[]
 }
 export interface Messages{
     created_at: string,

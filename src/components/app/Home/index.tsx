@@ -4,7 +4,7 @@ import PostGrid from '../../posts/PostGrid';
 import { observer } from "mobx-react-lite";
 import AuthStore from '../../../shared/authStore/AuthStore'
 import ListUser from '../../listUser/ListUser';
-import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {

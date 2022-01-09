@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState, useContext } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+// import Drawer from '@material-ui/core/Drawer';
 // import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+// import CssBaseline from '@material-ui/core/CssBaseline';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import MailIcon from '@material-ui/icons/Mail';
 import RoomCpn from './Room';
-import { Avatar, Button, Chip, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, ListSubheader, TextField, Typography } from "@material-ui/core"
+// import { Avatar, Button, Chip, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, ListSubheader, TextField, Typography } from "@material-ui/core"
 import ChatStore from '../../stores/ChatStore';
-import { Room, User } from '../../shared/interfaces';
-import { firstChar } from '../../shared/functions/sliceName';
+import { Room } from '../../shared/interfaces';
+// import { firstChar } from '../../shared/functions/sliceName';
 import ModalChat from './Modal';
 import { observer } from 'mobx-react-lite';
-import AddIcon from '@material-ui/icons/Add';
+// import AddIcon from '@material-ui/icons/Add';
 import AuthStore from '../../shared/authStore/AuthStore';
-import MessagesStore from '../../stores/MessagesStore';
-
+// import MessagesStore from '../../stores/MessagesStore';
+import { PusherContext } from '../../shared/pusher/Pusher';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -168,25 +168,33 @@ function ClippedDrawer() {
   }, [])
   const handleClick=(room:Room)=>{
     setRoom(room)
-    MessagesStore.getAllMes(room.id)
   }
+
+ const pusher = useContext(PusherContext);
+  useEffect(()=>{
+    var channel = pusher.subscribe("message-notification");
+    channel.bind("message", function(res:any) {
+      if(res.success){
+        ChatStore.chatRealtime(res.message)
+      }
+      
+    });
+
+  },[])
   return (
     <div className={classes.root}>
 
       <div className={classes.sidebar}>
         <div className={classes.header}>
           {AuthStore.user.username}
-          {/* <span style={{ marginLeft: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <AddIcon />
-          </span> */}
         </div>
         <div className={classes.listUser}>
           {ChatStore.rooms.map((room, index) => (
-            <>
-              <div key={index} className={classes.itemUser} onClick={()=>handleClick(room)}>
+            <div key={index} >
+              <div className={classes.itemUser} onClick={()=>handleClick(room)}>
                 {room.name}
               </div>
-            </>
+            </div>
           ))}
         </div>
       </div>
@@ -199,8 +207,6 @@ function ClippedDrawer() {
             <ModalChat data={ChatStore.user} />
           )
           }
-
-
         </div>
       </div>
 

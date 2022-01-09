@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react'
-import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles} from '@material-ui/core/styles';
 import { Modal, Avatar, Button } from '@material-ui/core';
 import { Comment, PostInterface } from '../../shared/interfaces';
 import ProfileStore from '../../stores/ProfileStore';

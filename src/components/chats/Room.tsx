@@ -1,9 +1,9 @@
-import React, { ReactElement, useState, useEffect } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Avatar, Button} from '@material-ui/core'
 import { Messages, Room } from '../../shared/interfaces';
 import { firstChar } from '../../shared/functions/sliceName';
-import MessagesStore from '../../stores/MessagesStore';
+import ChatStore from '../../stores/ChatStore';
 import { observer } from 'mobx-react-lite';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -95,10 +95,7 @@ interface Props {
 
 function RoomCpn(props: Props): ReactElement {
   const [messages,setMessages]=useState('');
-  useEffect(()=>{
-    MessagesStore.getAllMes(props.data.id)
-    console.log(MessagesStore.messages)
-  },[])
+ 
   const userId=Number(localStorage.getItem('userId'))
  
 
@@ -107,7 +104,7 @@ function RoomCpn(props: Props): ReactElement {
   )
   const handleSubmit=(e:any)=>{
     e.preventDefault();
-    MessagesStore.postMes(messages,props.data.id);
+    ChatStore.postMes(messages,props.data.id);
     setMessages('');
   }
     const classes = useStyles();
@@ -120,13 +117,13 @@ function RoomCpn(props: Props): ReactElement {
             <div className={classes.chatMessageWrapper}>
               <div className={classes.chatMesList}>
 
-                {MessagesStore.messages.map((messages:Messages,index:number)=>
+                {props.data.messages.map((messages:Messages,index:number)=>
                   messages.user_id===userId?(
-                    <div className={classes.chatMesItemRight}>
+                    <div className={classes.chatMesItemRight} key={index}>
                     {messages.message}
                   </div>
                   ):(
-                    <div className={classes.chatMesItemLeft}>
+                    <div className={classes.chatMesItemLeft} key={index}>
                    {messages.message}
                 </div>
                   )

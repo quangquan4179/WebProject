@@ -1,5 +1,5 @@
 import { Button, Modal } from '@material-ui/core'
-import React, { ReactElement, useState , useEffect} from 'react'
+import React, { ReactElement, useState } from 'react'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import Chip from '@material-ui/core/Chip';

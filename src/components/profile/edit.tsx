@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AccountEdit from './AccountEdit'
 import ChangePassword from './ChangePassword'
 const useStyles = makeStyles((theme: Theme) =>
@@ -55,13 +55,13 @@ export default function EditProfile() {
     return (
         <div className={classes.root}>
             <div className={classes.sideBar}>
-                <div className={isChoose == 1 ? classes.sideBarItemChoose : classes.sideBarItem} onClick={() => chooseItem(1)} >Edit Profile</div>
-                <div className={isChoose == 2 ? classes.sideBarItemChoose : classes.sideBarItem} onClick={() => chooseItem(2)} >Change Password</div>
-                <div className={isChoose == 3 ? classes.sideBarItemChoose : classes.sideBarItem} onClick={() => chooseItem(3)} >Log Out</div>
+                <div className={isChoose === 1 ? classes.sideBarItemChoose : classes.sideBarItem} onClick={() => chooseItem(1)} >Edit Profile</div>
+                <div className={isChoose === 2 ? classes.sideBarItemChoose : classes.sideBarItem} onClick={() => chooseItem(2)} >Change Password</div>
+                <div className={isChoose === 3 ? classes.sideBarItemChoose : classes.sideBarItem} onClick={() => chooseItem(3)} >Log Out</div>
             </div>
             <div className={classes.userView}>
-                {isChoose == 1 && <AccountEdit />}
-                {isChoose == 2 && <ChangePassword />}
+                {isChoose === 1 && <AccountEdit />}
+                {isChoose === 2 && <ChangePassword />}
             </div>
         </div>
     );
