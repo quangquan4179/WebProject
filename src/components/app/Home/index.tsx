@@ -26,7 +26,7 @@ const Home = () => {
         <React.Fragment>
             <div className={classes.container}>
                 <div style={{ width: '75%' }}>
-                    <CreatePost data={AuthStore.user} />
+                    {AuthStore.user?( <CreatePost data={AuthStore.user} />):('')}
                     <PostGrid />
                 </div>
                 <div style={{ width: '25%', marginTop: '64px' }}>

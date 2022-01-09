@@ -12,6 +12,10 @@ const Auth =()=>{
                 {AuthStore.isAuth===false?(
                     <>
                     {/* <Route  element={<RedirectLogin path='/'/>}/> */}
+                    <Route path='/explore/people' element={<RedirectLogin component={<Login/>}/>}/>
+                    <Route path='/account/edit' element={<RedirectLogin component={<Login/>}/>}/>
+                    <Route path='/profile' element={<RedirectLogin component={<Login/>}/>}/>
+                    <Route path='/inbox' element={<RedirectLogin component={<Login/>}/>}/>
                     <Route path='/' element={<RedirectLogin component={<Login/>}/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>

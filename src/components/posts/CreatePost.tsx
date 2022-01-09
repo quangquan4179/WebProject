@@ -2,7 +2,7 @@ import React, { ReactElement, useContext } from 'react'
 import { Box, Card, Avatar, Button, TextField, DialogContent } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Data, Nullable } from '../../shared/interfaces'
+import { Data, Nullable, User } from '../../shared/interfaces'
 import { firstChar } from '../../shared/functions/sliceName'
 // import PostStore from '../../stores/PostStore'
 // import Pusher from 'pusher-js';
@@ -11,7 +11,7 @@ import uploadImage from '../../shared/functions/uploadImage'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
 interface Props {
-    data?: Nullable<Data>
+    data: User;
 }
 export default function CreatePost(props: Props): ReactElement {
     // Pusher.logToConsole = true;
@@ -45,7 +45,6 @@ export default function CreatePost(props: Props): ReactElement {
             
 
         }
-
 
 
     }
