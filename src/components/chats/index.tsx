@@ -7,7 +7,7 @@ const Chat =()=>{
 
     return(
         <React.Fragment>
-           <Box sx={{ marginTop: '80px', display: 'flex', justifyContent: 'center' }}>
+           <Box sx={{height: 'calc(100vh - 84px)', paddingTop: '20px', marginTop: '64px', display: 'flex', justifyContent: 'center' }} style={{background: 'linear-gradient(#e66465, #9198e5)',}}>
          
                <PermanentDrawerLeft/>
                

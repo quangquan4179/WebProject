@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { Avatar, Button} from '@material-ui/core'
+import { Avatar, Button } from '@material-ui/core'
 import { Messages, Room } from '../../shared/interfaces';
 import { firstChar } from '../../shared/functions/sliceName';
 import ChatStore from '../../stores/ChatStore';
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '0 20px',
       position: "sticky",
       top: 0,
-      zIndex:2,
+      zIndex: 2,
       backgroundColor: '#fff'
     },
     chatFooter: {
@@ -55,9 +55,14 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     chatButton: {
+      fontWeight: 600,
       cursor: 'pointer',
       marginRight: '5px',
-      color: 'rgba(var(--d69,0,149,246),1)'
+      color: 'rgba(var(--d69,0,149,246),1)',
+      textTransform: 'none',
+      '&:hover':{
+        backgroundColor: 'transparent',
+      }
     },
     chatMesList: {
       display: 'block',
@@ -89,58 +94,55 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 interface Props {
-  data:Room
-    
+  data: Room
+
 }
 
 function RoomCpn(props: Props): ReactElement {
-  const [messages,setMessages]=useState('');
- 
-  const userId=Number(localStorage.getItem('userId'))
- 
+  const [messages, setMessages] = useState('');
 
-  const handleChange =(e:any)=>(
+  const userId = Number(localStorage.getItem('userId'))
+
+
+  const handleChange = (e: any) => (
     setMessages(e.target.value)
   )
-  const handleSubmit=(e:any)=>{
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    ChatStore.postMes(messages,props.data.id);
+    ChatStore.postMes(messages, props.data.id);
     setMessages('');
   }
-    const classes = useStyles();
-    return (
-        <div className={classes.chatMessageWindow}>
-            <div className={classes.chatHeader}>
-              <Avatar aria-label="recipe" style={{ width: 24, height: 24, marginRight: 20 }}>{firstChar(props.data?.name)}</Avatar>
-              <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.data?.name}</div>
-            </div>
-            <div className={classes.chatMessageWrapper}>
-              <div className={classes.chatMesList}>
+  const classes = useStyles();
+  return (
+    <div className={classes.chatMessageWindow}>
+      <div className={classes.chatHeader}>
+        <Avatar aria-label="recipe" style={{ width: 24, height: 24, marginRight: 20 }}>{firstChar(props.data?.name)}</Avatar>
+        <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{props.data?.name}</div>
+      </div>
+      <div className={classes.chatMessageWrapper}>
+        <div className={classes.chatMesList}>
 
-                {props.data.messages.map((messages:Messages,index:number)=>
-                  messages.user_id===userId?(
-                    <div className={classes.chatMesItemRight} key={index}>
-                    {messages.message}
-                  </div>
-                  ):(
-                    <div className={classes.chatMesItemLeft} key={index}>
-                   {messages.message}
-                </div>
-                  )
-                )
-                }
+          {props.data.messages.map((messages: Messages, index: number) =>
+            messages.user_id === userId ? (
+              <div className={classes.chatMesItemRight} key={index}>
+                {messages.message}
               </div>
-              
-            </div>
-            <div className={classes.chatFooter}>
-              <form onSubmit={handleSubmit}>
-                <input placeholder="Message . . ." className={classes.chatInput}  value={messages} onChange={handleChange}/>
-                <Button className={classes.chatButton} type="submit">Send</Button>
-              </form>
-             
-            </div>
+            ) : (
+              <div className={classes.chatMesItemLeft} key={index}>
+                {messages.message}
+              </div>
+            )
+          )
+          }
+        </div>
 
-          </div>
-    )
+      </div>
+      <form onSubmit={handleSubmit} className={classes.chatFooter}>
+        <input placeholder="Message . . ." className={classes.chatInput} value={messages} onChange={handleChange} />
+        <Button className={classes.chatButton} type="submit">Send</Button>
+      </form>
+
+    </div>
+  )
 }
 export default observer(RoomCpn);
