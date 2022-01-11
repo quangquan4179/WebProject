@@ -1,5 +1,5 @@
-import React, { ReactElement, useContext } from 'react'
-import { Box, Card, Avatar, Button, TextField, DialogContent } from '@material-ui/core';
+import React, { ReactElement, useContext, useState } from 'react'
+import { Box, Card, Avatar, Button, TextField, DialogContent , CircularProgress } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Data, Nullable, User } from '../../shared/interfaces'
@@ -17,9 +17,13 @@ export default function CreatePost(props: Props): ReactElement {
     // Pusher.logToConsole = true;
     // const pusher = useContext(PusherContext)
     const userId = localStorage.getItem('userId');
-    const [content, setContent] = React.useState('');
-    const [open, setOpen] = React.useState(false);
-    const [file, setFile] = React.useState<File>()
+    const [content, setContent] = useState('');
+    const [open, setOpen] = useState(false);
+    const [file, setFile] = useState<File>()
+
+    //loading
+    const [isSubmiting, setSubmiting] = useState(false)
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -36,14 +40,17 @@ export default function CreatePost(props: Props): ReactElement {
     }
     const uploadFile = async (e: any) => {
         e.preventDefault();
+        setSubmiting(true)
         if (file) {
-            
             const formData = new FormData();
             formData.append("image", file);
-            setOpen(false);
-            uploadImage(file, content);
-            
-
+            try {
+                const res = await uploadImage(file, content);
+                setOpen(false);
+            } catch (error) {
+                console.log("🚀 ~ file: CreatePost.tsx ~ line 47 ~ uploadFile ~ error", error)
+            }
+            setSubmiting(false)
         }
 
 
@@ -111,7 +118,8 @@ export default function CreatePost(props: Props): ReactElement {
                                             ('')
                                         }
 
-                                        <Button variant="contained" style={{ width: '100%', marginTop: '10px' }} type="submit" >Đăng lên</Button>
+                                        {isSubmiting ? <CircularProgress/> :
+                                        <Button variant="contained" style={{ width: '100%', marginTop: '10px' }} type="submit" >Đăng lên</Button>}
 
                                     </form>
 
