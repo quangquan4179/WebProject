@@ -6,7 +6,7 @@ import AuthStore from "../../shared/authStore/AuthStore";
 import { observer } from "mobx-react-lite";
 // import Home from "./Home";
 import RedirectComponent from "../RedirectComponent";
-
+import EditProfile from "../profile/edit";
 // import Chat from "../chats";
 const DashboardLayoutRoot = styled('div')(({theme}) => ({
     height: '100%',
@@ -24,10 +24,8 @@ interface Data{
     component: JSX.Element;
 
 }
-interface appRoute{
-    route: Data[]
-}
-function MyApp (props: appRoute){
+
+function ProfileEdit (){
     useEffect(()=>{
         const userId = localStorage.getItem('userId');
         AuthStore.getUser(Number(userId))
@@ -39,14 +37,13 @@ function MyApp (props: appRoute){
             <DashboardLayoutContent>
               
                <Routes>
-                   {props.route.map((item)=>{
-                    return(<Route key={item.path} path ={item.path} element={<RedirectComponent component={item.component}/>}/>)
-                   }    
-                   )}
+                   
+                    <Route  element={<RedirectComponent component={<EditProfile/>}/>}/>)
+                  
                </Routes>
             </DashboardLayoutContent>
         </DashboardLayoutRoot>
     )
 
 }
-export default observer(MyApp)
+export default observer(ProfileEdit)

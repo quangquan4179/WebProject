@@ -15,14 +15,12 @@ import {pusher, PusherContext} from './shared/pusher/Pusher'
 function App() {
   const [component, setComponent] = useState<ReactNode>();
   const getCurrentView = () => {
-    if(AuthStore.user){
-      
+    if(Boolean(localStorage.getItem('accessToken'))){
       return <PusherContext.Provider value={pusher}>
             <MyApp route={AppRoute}/>
       </PusherContext.Provider>
     }
     else{
-      
       return <Auth/>
     }
   }

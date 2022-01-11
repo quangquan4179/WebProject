@@ -153,6 +153,15 @@ export default function NavBar(props: NavBarProps) {
   const handleChange = () => {
     setChecked((prev) => !prev);
   };
+  const handleChangeChat = () => {
+    window.location.reload();
+    // setChecked((prev) => !prev);
+  };
+  const handleChangeProfile = () => {
+    
+    setChecked((prev) => !prev);
+    // window.location.reload();
+  };
   const handleSignOut = () => {
     AuthStore.signout()
     window.location.reload();
@@ -163,11 +172,11 @@ export default function NavBar(props: NavBarProps) {
       <div style={{ position: 'relative' }}>
         {/* <div className={classes.gocnhon}></div> */}
         <div className={classes.tableDropdown}>
-          <Link to='./profile' className={classes.itemMenu} onClick={handleChange}>
+          <Link to='/profile' className={classes.itemMenu} onClick={handleChangeProfile}>
             <AccountCircleIcon />
             <div className={classes.itemMenuLabel}>Profile</div>
           </Link>
-          <Link to='./account/edit' className={classes.itemMenu} onClick={handleChange}>
+          <Link to='/account/edit' className={classes.itemMenu} onClick={handleChangeProfile}>
             <SettingsIcon />
             <div className={classes.itemMenuLabel}>Settings</div>
           </Link>
@@ -206,7 +215,7 @@ export default function NavBar(props: NavBarProps) {
                 <HomeIcon />
               </Link>
             </IconButton>
-            <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom}>
+            <IconButton aria-label="show 4 new mails" color="inherit" className={classes.buttonCustom} onClick={handleChangeChat}>
               <Link to='/inbox' style={{ color: '#000', padding: '0' }}>
                 {/* <Badge badgeContent={4} color="primary">
                 </Badge> */}

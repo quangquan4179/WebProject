@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme: Theme) =>
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
-                        }}>{firstChar(AuthStore.user.username)}</Avatar>
+                        }}>{firstChar(AuthStore.user?.username)}</Avatar>
                     </div>
                     <div className={classes.profileInfo}>
                         <div style={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-between' }}>
