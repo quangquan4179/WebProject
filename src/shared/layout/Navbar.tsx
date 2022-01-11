@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom'
 import logo from './../../img/logo.png'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -166,8 +167,14 @@ export default function NavBar(props: NavBarProps) {
     AuthStore.signout()
     window.location.reload();
   }
+  const handleClickAway = () => {
+    setChecked(false);
+  };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
+    // <ClickAwayListener onClickAway={handleClickAway}>
+      
+    // </ClickAwayListener>
     <Fade in={checked} style={{ position: 'absolute' }}>
       <div style={{ position: 'relative' }}>
         {/* <div className={classes.gocnhon}></div> */}
