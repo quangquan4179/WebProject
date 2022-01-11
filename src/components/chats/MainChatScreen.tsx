@@ -186,7 +186,7 @@ function ClippedDrawer() {
 
       <div className={classes.sidebar}>
         <div className={classes.header}>
-          {AuthStore.user.username}
+          {AuthStore.user?.username}
         </div>
         <div className={classes.listUser}>
           {ChatStore.rooms.map((room, index) => (
