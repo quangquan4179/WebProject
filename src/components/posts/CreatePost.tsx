@@ -47,8 +47,8 @@ export default function CreatePost(props: Props): ReactElement {
             try {
                 const res = await uploadImage(file, content);
                 setOpen(false);
-            } catch (error) {
-                console.log("🚀 ~ file: CreatePost.tsx ~ line 47 ~ uploadFile ~ error", error)
+            } catch (error: any) {
+                alert(`Create post error...${error.message}`)
             }
             setSubmiting(false)
         }
