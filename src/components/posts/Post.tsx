@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import CommentIcon from '@material-ui/icons/Comment';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Box, Dialog, ListItem, Modal, List, Divider, ListItemText, DialogTitle } from '@material-ui/core'
@@ -258,19 +259,19 @@ function Post(props: Props) {
             <FavoriteIcon color="secondary"/>
           </IconButton>
           )}
-          <IconButton aria-label="share">
-            <ShareIcon />
+          <IconButton aria-label="comment">
+            <CommentIcon onClick={handleOpen}/>
           </IconButton>
         </CardActions>
         <div className={classes.countLikes}>{props.data.likes.length} likes</div>
         <CardContent>
         {props.data.likes.length>0?(props.data.likes.length===1?(
-         <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component="p">
            Liked by <span className={classes.postOwnerName}>  {props.data.likes[0].user.username}</span>
           
           </Typography>
         ):(
-
+          
           <Typography variant="body2" color="textSecondary" component="p">
           Liked by<span className={classes.postOwnerName}>  {props.data.likes[0].user.username}</span> and <span className={classes.postOwnerName}>{props.data.likes.length-1} others</span>
         
@@ -281,7 +282,7 @@ function Post(props: Props) {
             {props.data.content}
           </Typography>
         </CardContent>
-        <div className={classes.viewAllComments} onClick={handleOpen}>View all comments</div>
+        {/* <div className={classes.viewAllComments} onClick={handleOpen}>View all comments</div> */}
 
         <div className={classes.postFooter}>
           <form onSubmit={handleSubmit}>
@@ -309,8 +310,8 @@ function Post(props: Props) {
           <div style={{ width: '35%' }}>
             <div className={classes.headerComment}>
               <div>
-                <Avatar aria-label="recipe" className={classes.avatar} src={props.data.photoURL != null ? (props.data.photoURL) : (undefined)}>
-                  {firstChar(props.data.user.username)}
+                <Avatar aria-label="recipe" className={classes.avatar} src={props.data.user != null ? (props.data.user.photoURL) : (undefined)}>
+                  {/* {firstChar(props.data.user.username)} */}
                 </Avatar>
               </div>
               <div>{props.data.user.username}</div>

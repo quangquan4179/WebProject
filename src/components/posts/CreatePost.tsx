@@ -45,10 +45,10 @@ export default function CreatePost(props: Props): ReactElement {
             const formData = new FormData();
             formData.append("image", file);
             try {
-                const res = await uploadImage(file, content);
                 setOpen(false);
+                const res = await uploadImage(file, content);
             } catch (error: any) {
-                alert(`Create post error...${error.message}`)
+                // alert(`Create post error...${error.message}`)
             }
             setSubmiting(false)
         }

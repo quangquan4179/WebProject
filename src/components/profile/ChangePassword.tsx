@@ -3,6 +3,7 @@ import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@materi
 import Avatar from '@material-ui/core/Avatar';
 import AuthStore from '../../shared/authStore/AuthStore';
 import { firstChar } from '../../shared/functions/sliceName';
+import { toast } from 'react-toastify';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -96,10 +97,30 @@ export default function ChangePassword() {
       });
   const { password, passwordConfirm, oldPassword }: {  password: string, passwordConfirm: string , oldPassword:string} = formData;
       const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
-      const handleSubmit=(e:any)=>{
+      const handleSubmit= async (e:any)=>{
         e.preventDefault();
-        AuthStore.resetPassword(password,oldPassword);
-        
+        const res = await AuthStore.resetPassword(password,oldPassword);
+        if (res.success === false) {
+            toast.error('Change password false.', {
+              position: 'top-right',
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+          } else {
+            toast.success('Change password Success.', {
+              position: 'top-right',
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+          }
       }
     return (
         <div className={classes.root}>

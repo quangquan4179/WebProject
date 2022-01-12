@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'center',
             textTransform: 'inherit',
             textOverflow: 'ellipsis',
+            fontSize: '14px',
         },
         profileInfoFriend: {
             fontSize: '16px',
@@ -106,7 +107,7 @@ const useStyles = makeStyles((theme: Theme) =>
                     <div className={classes.profileInfo}>
                         <div style={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-between' }}>
                             <div className={classes.profileInfoName}>{AuthStore.user?.username}</div>
-                            <Link to='/account/edit' className={classes.profileInfoEdit}>button edit</Link>
+                            <Link to='/account/edit' className={classes.profileInfoEdit}>Edit Profile</Link>
                         </div>
                         <div style={{ display: 'flex', marginBottom: '20px', justifyContent: 'space-between' }}>
                             <div className={classes.profileInfoFriend}>{ProfileStore.myPosts.length} post</div>

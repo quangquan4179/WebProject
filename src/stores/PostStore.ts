@@ -66,9 +66,11 @@ class PostStore{
         const post_id = data.post_id;
         const posts:PostInterface[]=[...this.posts]; 
         const index :number= posts.findIndex((e: PostInterface)=>Number(e.id)===post_id);
-        const indexComment=posts[index].likes.findIndex((like:Like)=>data.id===like.id);
-        if(indexComment===-1){
-            posts[index].likes.slice(indexComment,1);
+        if(index !== -1){
+            const indexComment=posts[index].likes.findIndex((like:Like)=>data.id===like.id);
+            if(indexComment!==-1){
+                posts[index].likes.slice(indexComment,1);
+            }
         }
         this.setPosts(posts);
     }

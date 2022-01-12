@@ -88,6 +88,7 @@ class AuthStore {
   }
   async resetPassword (newPassword:string, oldPassword:string){
     const res = await changePassword(newPassword,oldPassword);
+    return res;
   }
 }
 export default new AuthStore();

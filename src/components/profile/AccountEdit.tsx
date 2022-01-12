@@ -3,8 +3,10 @@ import { makeStyles, Theme, createStyles, withStyles, WithStyles } from '@materi
 import Avatar from '@material-ui/core/Avatar';
 import AuthStore from '../../shared/authStore/AuthStore';
 import { firstChar } from '../../shared/functions/sliceName';
-import { Dialog,DialogTitle, List , Divider, ListItemText,ListItem} from '@material-ui/core';
+import { Dialog, DialogTitle, List, Divider, ListItemText, ListItem, Button } from '@material-ui/core';
 import uploadAvatar from '../../shared/functions/uploadAvatar';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import { observer } from 'mobx-react-lite';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -76,6 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '32px',
             padding: '0 10px',
             background: '#fafafa',
+            opacity: '0.6',
         },
         submitButton: {
             borderRadius: '4px',
@@ -90,19 +93,22 @@ const useStyles = makeStyles((theme: Theme) =>
             lineHeight: '18px',
             border: '1px solid transparent',
             backgroundColor: 'rgba(var(--d69,0,149,246),1)',
+        },
+        buttonChangeAvtUpload: {
+            backgroundColor: 'black', color: 'white', '&:hover': { opacity: '0.8', backgroundColor:'black' }
         }
     }),
 );
 
-export default function AccountEdit() {
+function AccountEdit() {
     const classes = useStyles();
-    const [open,setOpen]=useState(false);
+    const [open, setOpen] = useState(false);
     const [file, setFile] = React.useState<File>()
     const userId = Number(localStorage.getItem('userId'));
-    const handleOpen =()=>{
+    const handleOpen = () => {
         setOpen(true);
     }
-    const handleClose =()=>{
+    const handleClose = () => {
         setOpen(false);
     }
     const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +122,7 @@ export default function AccountEdit() {
         if (file) {
             const formData = new FormData();
             formData.append("image", file);
-            uploadAvatar(file,userId);
+            uploadAvatar(file, userId);
             setOpen(false);
 
         }
@@ -128,10 +134,10 @@ export default function AccountEdit() {
         <div className={classes.root}>
             <div className={classes.changeAvt}>
                 <div className={classes.avatar}>
-                    <Avatar src={AuthStore.user.photoURL!==null?(AuthStore.user.photoURL):(undefined)}>{firstChar(AuthStore.user.username)}</Avatar>
+                    <Avatar src={AuthStore.user !== null ? (AuthStore.user.photoURL) : (undefined)}>{AuthStore.user !== null ? (firstChar(AuthStore.user.username)) : ('')}</Avatar>
                 </div>
                 <div className={classes.nameAndButton}>
-                    <div className={classes.name}>{AuthStore.user.username}</div>
+                    {/* <div className={classes.name}>{AuthStore.user.username}</div> */}
                     <button className={classes.buttonChangeAvt} onClick={handleOpen}>Change Profile Photo</button>
                 </div>
             </div>
@@ -140,44 +146,68 @@ export default function AccountEdit() {
                     <div className={classes.form}>
                         <div className={classes.label}>Username</div>
                         <div className={classes.inputDiv}>
-                            <input type="text" className={classes.input} />
+                            <input type="text" className={classes.input} disabled value={AuthStore.user !== null ? (AuthStore.user.username) : ''} />
                         </div>
                     </div>
                     <div className={classes.form}>
-                        <div className={classes.label}>Email</div>
+                        <div className={classes.label}>ID</div>
                         <div className={classes.inputDiv}>
-                            <input type="text" className={classes.input} />
+                            <input type="text" className={classes.input} disabled value={AuthStore.user !== null ? (AuthStore.user.id) : ''} />
                         </div>
                     </div>
-                    <div className={classes.form}>
+                    {/* <div className={classes.form}>
                         <div className={classes.label}></div>
                         <div className={classes.inputDiv}>
                             <button className={classes.submitButton}>Thay đổi</button>
                         </div>
-                    </div>
+                    </div> */}
                 </form>
             </div>
             <Dialog open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-dialog-title"
-      >
-        <DialogTitle id="simple-dialog-title">Change Profile Photo</DialogTitle>
-        <div >
-          <List>
-            <Divider />
-            
-              <form onSubmit={uploadFile}>
-              {file ? (<div style={{marginTop: '10px'}}>
-                        <img alt="not fount" width={"550px"} src={URL.createObjectURL(file)} />
-                                                <br />
-                        </div>) : ('')}
-                   <input type='file'  id="input-file"  onChange={handleChangeFile}></input>
-                   <button type='submit'>Upload</button>
-              </form>
-          </List>
-        </div>
+                onClose={handleClose}
+                aria-labelledby="simple-dialog-title"
 
-      </Dialog>
+            >
+                <div style={{ padding: '20px' }}>
+                    <List>
+
+                        <form onSubmit={uploadFile}>
+                            {/* {file ? (<div style={{ marginTop: '10px' }}>
+                                <img alt="not fount" width={"550px"} src={URL.createObjectURL(file)} />
+                                <br />
+                            </div>) : ('')} */}
+                            {/* <input type='file' id="input-file" onChange={handleChangeFile}></input> */}
+                            {file ?
+                                (<div style={{ marginTop: '10px' }}>
+                                    <img alt="not fount" width={"550px"} src={URL.createObjectURL(file)} />
+                                    <br />
+                                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                                        <Button type='submit' className={classes.buttonChangeAvtUpload}>Change</Button>
+                                    </div>
+                                </div>
+                                ) :
+                                ('')
+                            }
+                            {!file ?
+                                (<>
+                                    <Button
+                                        variant="contained"
+                                        component="label"
+                                        style={{ marginTop: '10px' }}
+                                    >
+                                        <AddPhotoAlternateIcon />
+                                        <input type='file' onChange={handleChangeFile} id="input-file" hidden></input>
+                                    </Button>
+                                </>
+                                ) :
+                                ('')
+                            }
+                        </form>
+                    </List>
+                </div>
+
+            </Dialog>
         </div>
     );
 }
+export default observer(AccountEdit)

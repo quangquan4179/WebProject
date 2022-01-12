@@ -12,6 +12,7 @@ import Profile from '../components/profile'
 import EditProfile from '../components/profile/edit'
 import ListUser from '../components/listUser/ListUser'
 import Chat from '../components/chats/MainChatScreen'
+import Random from '../components/app/Random'
 const Auth =()=>{
     return(
         <React.Fragment>
@@ -21,7 +22,7 @@ const Auth =()=>{
                      <Route path='/' element={<RedirectLogin component={<PusherContext.Provider value={pusher}>
                         <MyApp route={AppRoute} />
                     </PusherContext.Provider>}/>}/>
-                    <Route path='/explore/people' element={<RedirectLogin component={<ListUser/>}/>}/>
+                    <Route path='/explore/people' element={<RedirectLogin component={<Random/>}/>}/>
                     <Route path='/account/edit' element={<RedirectLogin component={<EditProfile/>}/>}/>
                     <Route path='/profile' element={<RedirectLogin component={<Profile/>}/>}/>
                     <Route path='/inbox' element={<RedirectLogin component={<Chat/>}/>}/>

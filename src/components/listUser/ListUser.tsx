@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
     const classes = useStyles();
     const handleClick=(userId:number)=>{
         ListUserStore.postFollow(userId);
+        window.location.reload();
     }
     useEffect(()=>{
         const userId = Number(localStorage.getItem('userId'))
