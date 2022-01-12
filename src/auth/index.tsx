@@ -9,7 +9,8 @@ import MyApp from '../components/app/index';
 import { PusherContext,pusher } from '../shared/pusher/Pusher'
 import { AppRoute } from '../routes/routes'
 import Profile from '../components/profile'
-import EditProfile from '../components/profile/edit'
+// import EditProfile from '../components/profile/edit'
+import ProfileEdit from '../components/app/ProfileEdit'
 import ListUser from '../components/listUser/ListUser'
 import Chat from '../components/chats/MainChatScreen'
 import Random from '../components/app/Random'
@@ -23,7 +24,7 @@ const Auth =()=>{
                         <MyApp route={AppRoute} />
                     </PusherContext.Provider>}/>}/>
                     <Route path='/explore/people' element={<RedirectLogin component={<Random/>}/>}/>
-                    <Route path='/account/edit' element={<RedirectLogin component={<EditProfile/>}/>}/>
+                    <Route path='/account/edit' element={<RedirectLogin component={<ProfileEdit/>}/>}/>
                     <Route path='/profile' element={<RedirectLogin component={<Profile/>}/>}/>
                     <Route path='/inbox' element={<RedirectLogin component={<Chat/>}/>}/>
                    
